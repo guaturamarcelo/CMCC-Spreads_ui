@@ -1,0 +1,133 @@
+suite assimilation_2
+
+    edit ECF_HOME "/work/csp/mg20022/ecflow/operation" 
+    edit ECF_HOST "zeus" 
+    edit ECF_INCLUDE "/work/csp/mg20022/ecflow/operation/includes"
+
+    defstatus suspended #queued
+
+    repeat string HOUR 00 06 12 18
+    edit NCYCLES 1
+    edit CONT_RUN FALSE
+    edit ACTIVE_ASSI TRUE
+    edit FORECAST FALSE
+    edit FENS 2
+    edit CLEANA TRUE
+    # time 00:00
+    # time 06:00
+    # time 12:00
+    # time 18:00 
+
+    family background
+        task prepare_background
+    endfamily
+
+
+    family prepare_assimilation
+
+        task pre_departure
+
+    endfamily
+    
+    family filter_departure_cleaver_screening
+
+        #trigger bufr_to_d4o/blind_screening==active
+
+
+        #task inflation
+        #   trigger run_background==complete
+        
+        family departure
+        
+            #trigger run_background==complete
+            # task pre_departure
+
+            # limit lim 5
+            task dep_1
+            task dep_2
+            task dep_3
+            task dep_4
+            task dep_5
+            task dep_6
+            task dep_7
+            task dep_8
+            task dep_9
+            task dep_10
+            task dep_11
+            task dep_12
+            task dep_13
+        
+        endfamily
+        
+    endfamily   
+
+    family filter_assim
+        #trigger filter_departure==complete
+        family departure_update
+            task update_1
+            #   trigger ../../filter_departure/departure/dep_1==complete
+            task update_2
+            #   trigger ../../filter_departure/departure/dep_2==complete
+            task update_3
+            #   trigger ../../filter_departure/departure/dep_3==complete
+            task update_4
+            #   trigger ../../filter_departure/departure/dep_4==complete
+            task update_5
+            #   trigger ../../filter_departure/departure/dep_5==complete
+            task update_6
+            #   trigger ../../filter_departure/departure/dep_6==complete
+            task update_7
+            #   trigger ../../filter_departure/departure/dep_7==complete
+            task update_8
+            #   trigger ../../filter_departure/departure/dep_8==complete
+            task update_9
+            #   trigger ../../filter_departure/departure/dep_9==complete
+            task update_10
+            #   trigger ../../filter_departure/departure/dep_10==complete
+            task update_11
+            #   trigger ../../filter_departure/departure/dep_11==complete
+            task update_12
+            #   trigger ../../filter_departure/departure/dep_12==complete
+            task update_13
+            #   trigger ../../filter_departure/departure/dep_13==complete
+
+        endfamily
+
+        task analysis
+            trigger departure_update==complete
+    endfamily 
+
+    family postprocess
+        
+        trigger filter_assim==complete
+
+        task products
+
+        task run_stats
+        
+        task archive
+
+        task clean
+
+    endfamily
+
+    family forecast
+        
+#        trigger filter_assim==complete
+
+        task 9h_forecast
+        task seasonal_forecast
+        task archive
+ #           trigger 9h_forecast==complete or seasonal_forecast==complete 
+
+    endfamily
+
+    family cancel
+        task cancel
+#            trigger ../assimilation_experiment/forecast==complete
+
+    endfamily
+
+
+
+endsuite

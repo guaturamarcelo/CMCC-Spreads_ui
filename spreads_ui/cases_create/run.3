@@ -1,0 +1,981 @@
++ set -o pipefail
++ ECF_PORT=3142
++ export ECF_PORT
++ ECF_HOST=login1
++ export ECF_HOST
++ ECF_NAME=/spreads_ui/cases_create/run
++ export ECF_NAME
++ ECF_PASS=JTWUrI9A
++ export ECF_PASS
++ ECF_TRYNO=3
++ export ECF_TRYNO
++ ECF_RID=93470
++ export ECF_RID
++ PATH=/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin
++ export PATH
++ ecflow_client '--init=93470'
++ trap ERROR 0
++ trap '{ echo "Killed by a signal"; ERROR ; }' 1 2 3 4 5 6 7 8 10 12 13 15
++ echo /work/csp/mg20022/ecflow/spreads_ui
+/work/csp/mg20022/ecflow/spreads_ui
++ date
+Ter Jan 17 10:31:47 CET 2023
++ case_name=d4osystemecf_test2
++ CESMEXP=cesm-exp
++ USER=mg20022
++ clonesroot=/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2
++ export clonesroot
++ nens=3
++ dartroot=/work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART/
++ export dartroot
++ echo d4osystemecf_test2
++ tr '[:lower:]' '[:upper:]'
++ tmpdir=/work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2
++ archdir=/work/csp/mg20022/CESM2/archive
++ baseobsdir=/users_home/csp/sm09722/BUFR_D4O
++ nts=13
++ script_name_original=case.templateradL70.original
++ dartnamelist=input.nml.original.rad
++ rttovdir=/users_home/csp/mg20022/rttov123
++ command . /etc/profile.d/modules.sh
++ /bin/ps -p 93470 '-ocomm='
++ /bin/basename run.job3
++ shell=run.job3
++ [ -f /usr/share/Modules/init/run.job3 ]
++ . /usr/share/Modules/init/sh
++ MODULESHOME=/usr/share/Modules
++ export MODULESHOME
++ [ '' '=' '' ]
++ LOADEDMODULES=''
++ export LOADEDMODULES
++ [ /zeus/opt/modulefiles:/zeus/opt/modulefiles-intel19.5:/zeus/opt/modulefiles-intel20.1 '=' '' ]
++ module load impi20.1/19.7.217 impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1 impi20.1/hdf5/1.12.0 intel20.1/20.1.217 intel20.1/cdo/1.9.8 intel20.1/eccodes/2.17.0 intel20.1/h4cflib/1.3 intel20.1/hdf4/4.2.13 intel20.1/hdf5/1.12.0 intel20.1/magics/3.3.1 intel20.1/nco/4.9.3 intel20.1/ncview/2.1.8 intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ /usr/bin/modulecmd sh load impi20.1/19.7.217 impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1 impi20.1/hdf5/1.12.0 intel20.1/20.1.217 intel20.1/cdo/1.9.8 intel20.1/eccodes/2.17.0 intel20.1/h4cflib/1.3 intel20.1/hdf4/4.2.13 intel20.1/hdf5/1.12.0 intel20.1/magics/3.3.1 intel20.1/nco/4.9.3 intel20.1/ncview/2.1.8 intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ eval CFLAGS='-I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include\' '-I/zeus/opt/curl/7.70.0/include\' '-I/zeus/opt/intel20.1/szip/2.1.1/include\' '-I/zeus/opt/impi20.1/hdf5/1.12.0/include\' '-I/usr/include\' '-I/zeus/opt/impi20.1/parallel-netcdf/1.12.1/include\' '-I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include\' '-I/zeus/opt/intel20.1/hdf5/1.12.0/include\' -DpgiFortran ';export' 'CFLAGS;CLASSPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/mpi.jar:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/daal.jar' ';export' 'CLASSPATH;CPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl/stdlib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/include' ';export' 'CPATH;DAALROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal' ';export' 'DAALROOT;FFLAGS=-I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include\' '-I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include\' '-I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include\' -I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include ';export' 'FFLAGS;FI_PROVIDER_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib/prov' ';export' 'FI_PROVIDER_PATH;HDF4=/zeus/opt/intel20.1/hdf4/4.2.13' ';export' 'HDF4;HDF5=/zeus/opt/intel20.1/hdf5/1.12.0' ';export' 'HDF5;HDF5_DIR=/zeus/opt/intel20.1/hdf5/1.12.0' ';export' 'HDF5_DIR;INCLUDE=/zeus/opt/intel20.1/magics/3.3.1/include:/zeus/opt/intel20.1/eccodes/2.17.0/include' ';export' 'INCLUDE;INFOPATH=/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/info/' ';export' 'INFOPATH;INTEL_LICENSE_FILE=27009@mng1,27009@mng2,27009@login1' ';export' 'INTEL_LICENSE_FILE;INTEL_PYTHONHOME=/zeus/opt/intel20/intel/debugger_2020/python/intel64/' ';export' 'INTEL_PYTHONHOME;IPPROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp' ';export' 'IPPROOT;I_MPI_CC=icc' ';export' 'I_MPI_CC;I_MPI_CXX=icpc' ';export' 'I_MPI_CXX;I_MPI_EXTRA_FILESYSTEM=0' ';export' 'I_MPI_EXTRA_FILESYSTEM;I_MPI_F77=ifort' ';export' 'I_MPI_F77;I_MPI_F90=ifort' ';export' 'I_MPI_F90;I_MPI_FABRICS=shm' ';export' 'I_MPI_FABRICS;I_MPI_FC=ifort' ';export' 'I_MPI_FC;I_MPI_HYDRA_BOOTSTRAP=lsf' ';export' 'I_MPI_HYDRA_BOOTSTRAP;I_MPI_HYDRA_COLLECTIVE_LAUNCH=1' ';export' 'I_MPI_HYDRA_COLLECTIVE_LAUNCH;I_MPI_HYDRA_IFACE=ib0' ';export' 'I_MPI_HYDRA_IFACE;I_MPI_ROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi' ';export' 'I_MPI_ROOT;LDFLAGS=-L/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib\' '-lnetcdf\' '-lnetcdff\' '-lnetcdf_c++4\' -L/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib ';export' 'LDFLAGS;LD_LIBRARY_PATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib64:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/debugger_2020/python/intel64/lib:/zeus/opt/intel20/intel/debugger_2020/libipt/intel64/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/szip/2.1.1/lib:/zeus/opt/curl/7.70.0/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/impi20.1/parallel-netcdf/1.12.1/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/release:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/ego/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/lsf/10.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/lsf/1.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib' ';export' 'LD_LIBRARY_PATH;LD_RUN_PATH=/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib' ';export' 'LD_RUN_PATH;LIBRARY_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8' ';export' 'LIBRARY_PATH;LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1' ';export' 'LOADEDMODULES;MAGPLUS_HOME=/zeus/opt/intel20.1/magics/3.3.1' ';export' 'MAGPLUS_HOME;MANPATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20.1/nco/4.9.3/share/man:/zeus/opt/intel20/intel/man/common:/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/man/:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/lsf/10.1/man:' ';export' 'MANPATH;MKLROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl' ';export' 'MKLROOT;NETCDF=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1' ';export' 'NETCDF;NETCDF_DIR=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1' ';export' 'NETCDF_DIR;NLSPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64/locale/%l_%t/%N:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/share/locale/%l_%t/%N' ';export' 'NLSPATH;PATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin' ';export' 'PATH;PKG_CONFIG_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/bin/pkgconfig' ';export' 'PKG_CONFIG_PATH;PSTLROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl' ';export' 'PSTLROOT;TBBROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb' ';export' 'TBBROOT;_LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1' ';export' '_LMFILES_;'
++ CFLAGS='-I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include -I/zeus/opt/curl/7.70.0/include -I/zeus/opt/intel20.1/szip/2.1.1/include -I/zeus/opt/impi20.1/hdf5/1.12.0/include -I/usr/include -I/zeus/opt/impi20.1/parallel-netcdf/1.12.1/include -I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include -I/zeus/opt/intel20.1/hdf5/1.12.0/include -DpgiFortran'
++ export CFLAGS
++ CLASSPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/mpi.jar:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/daal.jar
++ export CLASSPATH
++ CPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl/stdlib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/include:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/include
++ export CPATH
++ DAALROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal
++ export DAALROOT
++ FFLAGS='-I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include -I/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include -I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include -I/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/include'
++ export FFLAGS
++ FI_PROVIDER_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib/prov
++ export FI_PROVIDER_PATH
++ HDF4=/zeus/opt/intel20.1/hdf4/4.2.13
++ export HDF4
++ HDF5=/zeus/opt/intel20.1/hdf5/1.12.0
++ export HDF5
++ HDF5_DIR=/zeus/opt/intel20.1/hdf5/1.12.0
++ export HDF5_DIR
++ INCLUDE=/zeus/opt/intel20.1/magics/3.3.1/include:/zeus/opt/intel20.1/eccodes/2.17.0/include
++ export INCLUDE
++ INFOPATH=/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/info/
++ export INFOPATH
++ INTEL_LICENSE_FILE=27009@mng1,27009@mng2,27009@login1
++ export INTEL_LICENSE_FILE
++ INTEL_PYTHONHOME=/zeus/opt/intel20/intel/debugger_2020/python/intel64/
++ export INTEL_PYTHONHOME
++ IPPROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp
++ export IPPROOT
++ I_MPI_CC=icc
++ export I_MPI_CC
++ I_MPI_CXX=icpc
++ export I_MPI_CXX
++ I_MPI_EXTRA_FILESYSTEM=0
++ export I_MPI_EXTRA_FILESYSTEM
++ I_MPI_F77=ifort
++ export I_MPI_F77
++ I_MPI_F90=ifort
++ export I_MPI_F90
++ I_MPI_FABRICS=shm
++ export I_MPI_FABRICS
++ I_MPI_FC=ifort
++ export I_MPI_FC
++ I_MPI_HYDRA_BOOTSTRAP=lsf
++ export I_MPI_HYDRA_BOOTSTRAP
++ I_MPI_HYDRA_COLLECTIVE_LAUNCH=1
++ export I_MPI_HYDRA_COLLECTIVE_LAUNCH
++ I_MPI_HYDRA_IFACE=ib0
++ export I_MPI_HYDRA_IFACE
++ I_MPI_ROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi
++ export I_MPI_ROOT
++ LDFLAGS='-L/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib -lnetcdf -lnetcdff -lnetcdf_c++4 -L/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib'
++ export LDFLAGS
++ LD_LIBRARY_PATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib64:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/debugger_2020/python/intel64/lib:/zeus/opt/intel20/intel/debugger_2020/libipt/intel64/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/szip/2.1.1/lib:/zeus/opt/curl/7.70.0/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/impi20.1/parallel-netcdf/1.12.1/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/release:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/ego/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/lsf/10.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/lsf/1.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib
++ export LD_LIBRARY_PATH
++ LD_RUN_PATH=/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib
++ export LD_RUN_PATH
++ LIBRARY_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8
++ export LIBRARY_PATH
++ LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ export LOADEDMODULES
++ MAGPLUS_HOME=/zeus/opt/intel20.1/magics/3.3.1
++ export MAGPLUS_HOME
++ MANPATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20.1/nco/4.9.3/share/man:/zeus/opt/intel20/intel/man/common:/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/man/:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/lsf/10.1/man:
++ export MANPATH
++ MKLROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl
++ export MKLROOT
++ NETCDF=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ export NETCDF
++ NETCDF_DIR=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ export NETCDF_DIR
++ NLSPATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64/locale/%l_%t/%N:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/share/locale/%l_%t/%N
++ export NLSPATH
++ PATH=/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin
++ export PATH
++ PKG_CONFIG_PATH=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/bin/pkgconfig
++ export PKG_CONFIG_PATH
++ PSTLROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/pstl
++ export PSTLROOT
++ TBBROOT=/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb
++ export TBBROOT
++ _LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
++ export _LMFILES_
++ module load ncl/6.6.2
++ /usr/bin/modulecmd sh load ncl/6.6.2
++ eval FONTCONFIG_PATH=/etc/fonts ';export' 'FONTCONFIG_PATH;LD_LIBRARY_PATH=/zeus/opt/ncl/6.6.2/lib:/usr/lib64:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib64:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/debugger_2020/python/intel64/lib:/zeus/opt/intel20/intel/debugger_2020/libipt/intel64/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/szip/2.1.1/lib:/zeus/opt/curl/7.70.0/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/impi20.1/parallel-netcdf/1.12.1/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/release:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/ego/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/lsf/10.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/lsf/1.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib' ';export' 'LD_LIBRARY_PATH;LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:ncl/6.6.2' ';export' 'LOADEDMODULES;MANPATH=/zeus/opt/ncl/6.6.2/man:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20.1/nco/4.9.3/share/man:/zeus/opt/intel20/intel/man/common:/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/man/:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/lsf/10.1/man:' ';export' 'MANPATH;NCARG_RANGS=/zeus/opt/ncl/6.6.2/lib/ncarg/database/rangs' ';export' 'NCARG_RANGS;NCARG_ROOT=/zeus/opt/ncl/6.6.2' ';export' 'NCARG_ROOT;PATH=/zeus/opt/ncl/6.6.2/bin:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin' ';export' 'PATH;PKG_CONFIG_PATH=/usr/lib64' ';export' 'PKG_CONFIG_PATH;_LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles/ncl/6.6.2' ';export' '_LMFILES_;'
++ FONTCONFIG_PATH=/etc/fonts
++ export FONTCONFIG_PATH
++ LD_LIBRARY_PATH=/zeus/opt/ncl/6.6.2/lib:/usr/lib64:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/ncview/2.1.8/lib:/zeus/opt/intel20.1/nco/4.9.3/lib:/zeus/opt/intel20.1/magics/3.3.1/lib:/zeus/opt/intel20.1/hdf5/1.12.0/lib:/zeus/opt/intel20.1/hdf4/4.2.13/lib:/zeus/opt/intel20.1/h4cflib/1.3/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib:/zeus/opt/intel20.1/eccodes/2.17.0/lib64:/zeus/opt/intel20.1/cdo/1.9.8/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/ipp/lib/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/compiler/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mkl/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/tbb/lib/intel64/gcc4.8:/zeus/opt/intel20/intel/debugger_2020/python/intel64/lib:/zeus/opt/intel20/intel/debugger_2020/libipt/intel64/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/lib/intel64_lin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.4:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/daal/../tbb/lib/intel64_lin/gcc4.8:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/intel20.1/szip/2.1.1/lib:/zeus/opt/curl/7.70.0/lib:/zeus/opt/impi20.1/hdf5/1.12.0/lib:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/lib:/zeus/opt/impi20.1/parallel-netcdf/1.12.1/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/lib:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib/release:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/ego/1.2/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/lsf/10.0/linux-x86_64/lib:/opt/ibm/lsfsuite/ext/perf/license/7.0/linux-x86_64/lib:/opt/ibm/lsfsuite/lsf/1.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/lib
++ export LD_LIBRARY_PATH
++ LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:ncl/6.6.2
++ export LOADEDMODULES
++ MANPATH=/zeus/opt/ncl/6.6.2/man:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20.1/nco/4.9.3/share/man:/zeus/opt/intel20/intel/man/common:/zeus/opt/intel20/intel/documentation_2020/en/debugger/gdb-ia/man/:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/share/man:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/ext/ppm/10.2/man:/opt/ibm/lsfsuite/lsf/10.1/man:
++ export MANPATH
++ NCARG_RANGS=/zeus/opt/ncl/6.6.2/lib/ncarg/database/rangs
++ export NCARG_RANGS
++ NCARG_ROOT=/zeus/opt/ncl/6.6.2
++ export NCARG_ROOT
++ PATH=/zeus/opt/ncl/6.6.2/bin:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin
++ export PATH
++ PKG_CONFIG_PATH=/usr/lib64
++ export PKG_CONFIG_PATH
++ _LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles/ncl/6.6.2
++ export _LMFILES_
++ module load anaconda/2.7
++ /usr/bin/modulecmd sh load anaconda/2.7
++ eval CONDA_DEFAULT_ENV=base ';export' 'CONDA_DEFAULT_ENV;CONDA_EXE=/zeus/opt/anaconda/2.7/bin/conda' ';export' 'CONDA_EXE;CONDA_PREFIX=/zeus/opt/anaconda/2.7' ';export' 'CONDA_PREFIX;CONDA_PROMPT_MODIFIER=\(base\)\' ';export' 'CONDA_PROMPT_MODIFIER;CONDA_SHLVL=1' ';export' 'CONDA_SHLVL;LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:ncl/6.6.2:anaconda/2.7' ';export' 'LOADEDMODULES;PATH=/zeus/opt/anaconda/2.7/bin:/zeus/opt/anaconda/2.7/condabin:/zeus/opt/ncl/6.6.2/bin:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin' ';export' 'PATH;_CE_CONDA=' ';export' '_CE_CONDA;_CE_M=' ';export' '_CE_M;_LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles/ncl/6.6.2:/zeus/opt/modulefiles/anaconda/2.7' ';export' '_LMFILES_;'
++ CONDA_DEFAULT_ENV=base
++ export CONDA_DEFAULT_ENV
++ CONDA_EXE=/zeus/opt/anaconda/2.7/bin/conda
++ export CONDA_EXE
++ CONDA_PREFIX=/zeus/opt/anaconda/2.7
++ export CONDA_PREFIX
++ CONDA_PROMPT_MODIFIER='(base) '
++ export CONDA_PROMPT_MODIFIER
++ CONDA_SHLVL=1
++ export CONDA_SHLVL
++ LOADEDMODULES=impi20.1/19.7.217:impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:impi20.1/hdf5/1.12.0:intel20.1/20.1.217:intel20.1/cdo/1.9.8:intel20.1/eccodes/2.17.0:intel20.1/h4cflib/1.3:intel20.1/hdf4/4.2.13:intel20.1/hdf5/1.12.0:intel20.1/magics/3.3.1:intel20.1/nco/4.9.3:intel20.1/ncview/2.1.8:intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:ncl/6.6.2:anaconda/2.7
++ export LOADEDMODULES
++ PATH=/zeus/opt/anaconda/2.7/bin:/zeus/opt/anaconda/2.7/condabin:/zeus/opt/ncl/6.6.2/bin:/zeus/opt/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20.1/ncview/2.1.8/bin:/zeus/opt/intel20.1/nco/4.9.3/bin:/zeus/opt/intel20.1/magics/3.3.1/share:/zeus/opt/intel20.1/magics/3.3.1/bin:/zeus/opt/intel20.1/hdf5/1.12.0/bin:/zeus/opt/intel20.1/hdf4/4.2.13/bin:/zeus/opt/intel20.1/h4cflib/1.3/bin:/zeus/opt/intel20.1/eccodes/2.17.0/bin:/zeus/opt/intel20.1/cdo/1.9.8/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin/intel64:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/bin:/zeus/opt/intel20/intel/debugger_2020/gdb/intel64/bin:/zeus/opt/impi20.1/hdf5/1.12.0/bin:/zeus/opt/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/libfabric/bin:/zeus/opt/intel20/intel/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/etc:/opt/ibm/lsfsuite/lsf/10.1/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/users_home/csp/mg20022/.vscode-server/bin/97dec172d3256f8ca4bfb2143f3f76b503ca0534/bin/remote-cli:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/work/csp/mg20022/.conda/envs/ecflow/bin:/zeus/opt/anaconda/3.9.202205/condabin:/opt/ibm/lsfsuite/ext/perf/1.2/bin:/usr/bsd:/usr/ucb:/opt/ibm/lsfsuite/ext/gui/3.0/wlp/bin:/opt/ibm/lsfsuite/ext/gui/3.0/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/bin:/opt/ibm/lsfsuite/ext/ppm/10.2/linux2.6-glibc2.3-x86_64/bin:/opt/ibm/jre/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/zeus/opt/batch_tools/bin:/zeus/opt/tools/bin:/users_home/csp/mg20022/.local/bin:/users_home/csp/mg20022/bin:/bin:/usr/bin:/bin:/usr/bin:/bin:/usr/bin
++ export PATH
++ _CE_CONDA=''
++ export _CE_CONDA
++ _CE_M=''
++ export _CE_M
++ _LMFILES_=/zeus/opt/modulefiles-intel20.1/impi20.1/19.7.217:/zeus/opt/modulefiles-intel20.1/impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles-intel20.1/impi20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/20.1.217:/zeus/opt/modulefiles-intel20.1/intel20.1/cdo/1.9.8:/zeus/opt/modulefiles-intel20.1/intel20.1/eccodes/2.17.0:/zeus/opt/modulefiles-intel20.1/intel20.1/h4cflib/1.3:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf4/4.2.13:/zeus/opt/modulefiles-intel20.1/intel20.1/hdf5/1.12.0:/zeus/opt/modulefiles-intel20.1/intel20.1/magics/3.3.1:/zeus/opt/modulefiles-intel20.1/intel20.1/nco/4.9.3:/zeus/opt/modulefiles-intel20.1/intel20.1/ncview/2.1.8:/zeus/opt/modulefiles-intel20.1/intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1:/zeus/opt/modulefiles/ncl/6.6.2:/zeus/opt/modulefiles/anaconda/2.7
++ export _LMFILES_
++ CIME_MODEL=cesm
++ CESMDATAROOT=/data/inputs/CESM
++ export CESMDATAROOT
++ CIME_MACH=zeus
++ export CIME_MACH
++ LANGUAGE=en_US.UTF-8
++ export LANGUAGE
++ LC_ALL=en_US.UTF-8
++ export LC_ALL
++ LANG=en_US.UTF-8
++ export LANG
++ LC_TYPE=en_US.UTF-8
++ export LC_TYPE
++ CESMDIR=cesm2.1.4-rc.08
++ export CESMDIR
++ CESMEXP=cesm-exp
++ export CESMEXP
++ DIVISION=csp
++ export DIVISION
++ echo ' '
+ 
++ module list
++ /usr/bin/modulecmd sh list
+Currently Loaded Modulefiles:
+  1) impi20.1/19.7.217(default)
+  2) impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1(default)
+  3) impi20.1/hdf5/1.12.0(default)
+  4) intel20.1/20.1.217(default)
+  5) intel20.1/cdo/1.9.8(default)
+  6) intel20.1/eccodes/2.17.0
+  7) intel20.1/h4cflib/1.3(default)
+  8) intel20.1/hdf4/4.2.13(default)
+  9) intel20.1/hdf5/1.12.0(default)
+ 10) intel20.1/magics/3.3.1(default)
+ 11) intel20.1/nco/4.9.3(default)
+ 12) intel20.1/ncview/2.1.8(default)
+ 13) intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1(default)
+ 14) ncl/6.6.2(default)
+ 15) anaconda/2.7
++ eval
++ echo ' '
+ 
++ VERBOSE=-v
++ MOVE=/usr/bin/mv
++ COPY='/usr/bin/cp --preserve=timestamps'
++ LINK='/usr/bin/ln -s'
++ LIST=/usr/bin/ls
++ REMOVE='/usr/bin/rm -f'
++ maindir=/work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts
++ echo -e '\n START EXPERIMENT CREATION \n'
+
+ START EXPERIMENT CREATION 
+
++ [ 13 -eq 13 ]
++ tcentral=7
++ [ ! -d /work/csp/mg20022/ecflow/source/d4osystemecf_test2/ ]
++ cp -r --preserve /work/csp/mg20022/ecflow/source/d4osystem /work/csp/mg20022/ecflow/source/d4osystemecf_test2
++ cd /work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts
++ script_name=case.template
++ /usr/bin/cp '--preserve=timestamps' input.nml.original.rad input.nml
++ sed -i s/NUM_INSTANCE_TEMPLATE/3/g input.nml
++ echo -e '\n Remove dir of a previus experiment with the same name if it exists!\n'
+
+ Remove dir of a previus experiment with the same name if it exists!
+
++ [ -d /work/csp/mg20022/CESM2/archive/d4osystemecf_test2 ]
++ [ -d /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2 ]
++ [ -d /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2 ]
++ dirff=/work/csp/mg20022/cesm-exp/d4osystemecf_test2-forecast
++ [ -d /work/csp/mg20022/cesm-exp/d4osystemecf_test2-forecast ]
++ /usr/bin/cp '--preserve=timestamps' cases_assimilate_template.csh cases_assimilate.csh
++ sed -i s@TEMPLATE_OBS_EXP@/users_home/csp/sm09722/BUFR_D4O@g cases_assimilate.csh
++ echo /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2
++ cut -d/ -f6
++ containerdir=d4osystemecf_test2
++ /usr/bin/cp '--preserve=timestamps' ../case_archive/case.templateradL70.original ../case_archive/case.template
++ sed -i s/TEMPLATE_DIR_EXP/d4osystemecf_test2/g ../case_archive/case.template
++ echo -e 'Phase 1 (start): creation of a new case from template ...\n'
+Phase 1 (start): creation of a new case from template ...
+
++ csh ../case_archive/case.template
+removing old directory /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+removing old directory /work/csp/mg20022/CESM2/case_template/bld
+removing old directory /work/csp/mg20022/CESM2/case_template/run
+
+ Using the starred branch, below, of /users_home/csp/mg20022/cesm2.1.4-rc.08/cime 
+* (HEAD detached at cime5.6.35)
+ 
+n Using CAM version
+Tag name: cam_cesm2_1_rel_53
+Originator(s): fischer, nanr
+Date: 2020-12-15
+svn status -u:
+svn: warning: W155007: '/users_home/csp/mg20022/cesm2.1.4-rc.08/components/cam' is not a working copy
+ 
+CREATE NEW CASE COMMAND
+Did not find an alias or longname compset match for HIST_CAM60_CLM50%SP_CICE%PRES_DOCN%DOM_MOSART_SGLC_SWAV 
+Compset forcing is Historic transient 
+ATM component is CAM cam6 physics:
+LND component is clm5.0:Satellite phenology:
+ICE component is Sea ICE (cice) model version 5 :prescribed cice
+OCN component is DOCN   prescribed ocean mode
+ROF component is MOSART: MOdel for Scale Adaptive River Transport
+GLC component is Stub glacier (land ice) component
+WAV component is Stub wave component
+ESP component is 
+Pes     specification file is /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/../components/cam//cime_config/config_pes.xml
+Compset specific settings: name is RUN_STARTDATE and value is 1979-01-01
+Compset specific settings: name is SSTICE_DATA_FILENAME and value is $DIN_LOC_ROOT/atm/cam/sst/sst_HadOIBl_bc_0.9x1.25_1850_2017_c180507.nc
+Compset specific settings: name is SSTICE_GRID_FILENAME and value is $DIN_LOC_ROOT/share/domains/domain.ocn.fv0.9x1.25_gx1v7.151020.nc
+Compset specific settings: name is SSTICE_YEAR_END and value is 2016
+WARNING: User-selected machine 'zeus' does not match probed machine 'athena'
+ Compset is: HIST_CAM60_CLM50%SP_CICE%PRES_DOCN%DOM_MOSART_SGLC_SWAV 
+ Grid is: a%0.9x1.25_l%0.9x1.25_oi%0.9x1.25_r%r05_g%null_w%null_m%gx1v7 
+ Components in compset are: ['cam', 'clm', 'cice', 'docn', 'mosart', 'sglc', 'swav', 'sesp', 'drv', 'dart'] 
+No charge_account info available, using value from PROJECT
+Using project from env PROJECT: R000
+cesm model version found: cesm2.1.4-rc.08
+Batch_system_type is lsf
+job is case.run USER_REQUESTED_WALLTIME None USER_REQUESTED_QUEUE None WALLTIME_FORMAT %H:%M
+job is case.st_archive USER_REQUESTED_WALLTIME None USER_REQUESTED_QUEUE None WALLTIME_FORMAT %H:%M
+ Creating Case directory /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+END CREATE NEW CASE COMMAND
+From create_newcase, settings related to TASKS = ...
+
+Results in group mach_pes
+	NTASKS: ['CPL:36', 'ATM:36', 'LND:36', 'ICE:36', 'OCN:36', 'ROF:36', 'GLC:36', 'WAV:36', 'ESP:36']
+	NTASKS_PER_INST: ['ATM:0', 'LND:0', 'ICE:0', 'OCN:0', 'ROF:0', 'GLC:0', 'WAV:0', 'ESP:0']
+
+Results in group mach_pes_last
+	MAX_MPITASKS_PER_NODE: 36
+	MAX_TASKS_PER_NODE: 72
+
+Results in group run_pio
+	PIO_NUMTASKS: ['CPL:-99', 'ATM:-99', 'LND:-99', 'ICE:-99', 'OCN:-99', 'ROF:-99', 'GLC:-99', 'WAV:-99', 'ESP:-99']
+WARNING: The -id argument is deprecated. Multi-character arguments should begin with "--" and single character with "-"
+  Use --help for a complete list of available options
+setting case file to env_build.xml
+compset parts are HIST CAM60 CLM50%SP CICE%PRES DOCN%DOM MOSART SGLC SWAV
+After xmlchanges for ROOTPEs ...
+
+Results in group mach_pes
+	NTASKS: ['CPL:108', 'ATM:108', 'LND:108', 'ICE:108', 'OCN:108', 'ROF:108', 'GLC:108', 'WAV:108', 'ESP:36']
+	NTASKS_PER_INST: ['ATM:0', 'LND:0', 'ICE:0', 'OCN:0', 'ROF:0', 'GLC:0', 'WAV:0', 'ESP:0']
+
+Results in group mach_pes_last
+	MAX_MPITASKS_PER_NODE: 36
+	MAX_TASKS_PER_NODE: 72
+
+Results in group run_pio
+	PIO_NUMTASKS: ['CPL:-99', 'ATM:-99', 'LND:-99', 'ICE:-99', 'OCN:-99', 'ROF:-99', 'GLC:-99', 'WAV:-99', 'ESP:-99']
+	CIME_OUTPUT_ROOT: /work/csp/mg20022/CESM2
+	RUNDIR: /work/csp/mg20022/CESM2/case_template/run
+	EXEROOT: /work/csp/mg20022/CESM2/case_template/bld
+
+Results in group run_data_archive
+	DOUT_S: TRUE
+	DOUT_S_SAVE_INTERIM_RESTART_FILES: FALSE
+
+Results in group run_dout
+	DOUT_S_ROOT: /work/csp/mg20022/CESM2/archive/case_template
+ 
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/cam_diagnostics.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/cam_diagnostics.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/cam_diagnostics.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/cam_diagnostics.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/cam_history.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/cam_history.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/cam_history.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/cam_history.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/chemistry.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/chemistry.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/chemistry.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/chemistry.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/gw_common.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/gw_common.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/gw_common.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/gw_common.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/modal_aer_opt.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/modal_aer_opt.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/modal_aer_opt.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/modal_aer_opt.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/modal_aero_wateruptake.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/modal_aero_wateruptake.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/modal_aero_wateruptake.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/modal_aero_wateruptake.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/mo_tgcm_ubc.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/mo_tgcm_ubc.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/mo_tgcm_ubc.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/mo_tgcm_ubc.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/README’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/README’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/te_map.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/te_map.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/te_map.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/te_map.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/upper_bc.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/upper_bc.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.cam/upper_bc.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.cam/upper_bc.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.clm/LakeStateType.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.clm/LakeStateType.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.clm/LakeStateType.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.clm/LakeStateType.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.clm/LakeTemperatureMod.F90’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.clm/LakeTemperatureMod.F90’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.clm/LakeTemperatureMod.F90-ORIG’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.clm/LakeTemperatureMod.F90-ORIG’
+‘/users_home/csp/gc02720/cesm2.1.4/SourceMods/src.clm/README’ -> ‘/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/SourceMods/src.clm/README’
+ 
+ 
+Setting up the case ...
+Ignore "WARNING:: mosart.buildnml . . .".  Those files will be provided later
+Before case.setup, modules are
+Currently Loaded Modulefiles:
+  1) impi20.1/19.7.217(default)
+  2) impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1(default)
+  3) impi20.1/hdf5/1.12.0(default)
+  4) intel20.1/20.1.217(default)
+  5) intel20.1/cdo/1.9.8(default)
+  6) intel20.1/eccodes/2.17.0
+  7) intel20.1/h4cflib/1.3(default)
+  8) intel20.1/hdf4/4.2.13(default)
+  9) intel20.1/hdf5/1.12.0(default)
+ 10) intel20.1/magics/3.3.1(default)
+ 11) intel20.1/nco/4.9.3(default)
+ 12) intel20.1/ncview/2.1.8(default)
+ 13) intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1(default)
+ 14) ncl/6.6.2(default)
+ 15) anaconda/2.7
+/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/env_mach_specific.xml already exists, delete to replace
+job is case.run USER_REQUESTED_WALLTIME 2:00 USER_REQUESTED_QUEUE p_short WALLTIME_FORMAT %H:%M
+Creating batch scripts
+Writing case.run script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.case.run
+Creating file .case.run
+Writing case.st_archive script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.st_archive
+Creating file case.st_archive
+Creating user_nl_xxx files for components and cpl
+If an old case build already exists, might want to run 'case.build --clean' before building
+Updating file env_mach_specific.xml
+You can now run './preview_run' to get more info on how your case will be run
+GET_REFCASE is false, the user is expected to stage the refcase to the run directory.
+Creating component namelists
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/cam//cime_config/buildnml
+     ...calling cam buildcpp to set build time options
+CAM namelist copy: file1 /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/Buildconf/camconf/atm_in file2 /work/csp/mg20022/CESM2/case_template/run/atm_in 
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/clm//cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/cice//cime_config/buildnml
+     ...buildnml calling cice buildcpp to set build time options
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/data_comps/docn/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/mosart//cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/sglc/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/swav/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/sesp/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/drivers/mct/cime_config/buildnml
+   NOTE: ignoring setting of rof2ocn_liq_rmapname=idmap in seq_maps.rc
+   NOTE: ignoring setting of rof2ocn_ice_rmapname=idmap in seq_maps.rc
+Finished creating component namelists
+
+Building the case
+   --skip-provenance-check is used.  See note in ../case_archive/case.template
+
+Building case in directory /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+sharedlib_only is False
+model_only is False
+Generating component namelists as part of build
+GET_REFCASE is false, the user is expected to stage the refcase to the run directory.
+Creating component namelists
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/cam//cime_config/buildnml
+     ...calling cam buildcpp to set build time options
+CAM namelist copy: file1 /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/Buildconf/camconf/atm_in file2 /work/csp/mg20022/CESM2/case_template/run/atm_in 
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/clm//cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/cice//cime_config/buildnml
+     ...buildnml calling cice buildcpp to set build time options
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/data_comps/docn/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/components/mosart//cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/sglc/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/swav/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/components/stub_comps/sesp/cime_config/buildnml
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/drivers/mct/cime_config/buildnml
+   NOTE: ignoring setting of rof2ocn_liq_rmapname=idmap in seq_maps.rc
+   NOTE: ignoring setting of rof2ocn_ice_rmapname=idmap in seq_maps.rc
+Finished creating component namelists
+Building gptl with output to file /work/csp/mg20022/CESM2/case_template/bld/gptl.bldlog.230117-103222
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/build_scripts/buildlib.gptl
+Building mct with output to file /work/csp/mg20022/CESM2/case_template/bld/mct.bldlog.230117-103222
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/build_scripts/buildlib.mct
+Building pio with output to file /work/csp/mg20022/CESM2/case_template/bld/pio.bldlog.230117-103222
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/build_scripts/buildlib.pio
+Component pio build complete with 2 warnings
+Building csm_share with output to file /work/csp/mg20022/CESM2/case_template/bld/csm_share.bldlog.230117-103222
+   Calling /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/src/build_scripts/buildlib.csm_share
+Component csm_share build complete with 20 warnings
+         - Building clm4_5/clm5_0 Library 
+Building lnd with output to /work/csp/mg20022/CESM2/case_template/bld/lnd.bldlog.230117-103222
+Component lnd build complete with 6 warnings
+clm built in 144.295620 seconds
+Building atm with output to /work/csp/mg20022/CESM2/case_template/bld/atm.bldlog.230117-103222
+Building ice with output to /work/csp/mg20022/CESM2/case_template/bld/ice.bldlog.230117-103222
+Building ocn with output to /work/csp/mg20022/CESM2/case_template/bld/ocn.bldlog.230117-103222
+Building rof with output to /work/csp/mg20022/CESM2/case_template/bld/rof.bldlog.230117-103222
+Building glc with output to /work/csp/mg20022/CESM2/case_template/bld/glc.bldlog.230117-103222
+Building wav with output to /work/csp/mg20022/CESM2/case_template/bld/wav.bldlog.230117-103222
+Building esp with output to /work/csp/mg20022/CESM2/case_template/bld/esp.bldlog.230117-103222
+sglc built in 6.037588 seconds
+sesp built in 6.075490 seconds
+swav built in 6.099326 seconds
+mosart built in 24.845435 seconds
+Component ice build complete with 1 warnings
+cice built in 122.857884 seconds
+docn built in 122.919289 seconds
+Component atm build complete with 14 warnings
+cam built in 131.724758 seconds
+Building cesm with output to /work/csp/mg20022/CESM2/case_template/bld/cesm.bldlog.230117-103222 
+Time spent not building: 2.076173 sec
+Time spent building: 419.896662 sec
+MODEL BUILD HAS FINISHED SUCCESSFULLY
+ 
+CESM settings which are of special interest:
+ 
+	CONTINUE_RUN: FALSE
+	RESUBMIT_SETS_CONTINUE_RUN: TRUE
+	RESUBMIT: 0
+	RESUBMIT_SETS_CONTINUE_RUN: TRUE
+	RUN_REFCASE: ic_phase1
+	RUN_REFDATE: 2017-10-02
+	RUN_REFDIR: /work/csp/gc02720/ic/ic_phase1_83L
+	RUN_REFTOD: 00000
+	RUN_STARTDATE: 2019-04-05
+	STOP_OPTION: nhours
+	STOP_N: 9
+	SSTICE_GRID_FILENAME: /data/inputs/CESM/inputdata/share/domains/domain.ocn.fv0.9x1.25_gx1v7.151020.nc
+	SSTICE_YEAR_ALIGN: 2017
+	SSTICE_YEAR_END: 2017
+	SSTICE_YEAR_START: 2017
+	SSTICE_DATA_FILENAME: /data/inputs/CESM/inputdata/atm/cam/sst/sst_HadOIBl_bc_0.9x1.25_1850_2017_c180507.nc
+	SSTICE_STREAM: CAMDATA
+	DOUT_S: FALSE
+	DOUT_S_SAVE_INTERIM_RESTART_FILES: FALSE
+	DOUT_S_ROOT: /work/csp/mg20022/CESM2/archive
+	RUNDIR: /work/csp/mg20022/CESM2/case_template/run
+	MPI_RUN_COMMAND: UNSET
+	AVGHIST_DATE: -999
+	AVGHIST_N: -999
+	AVGHIST_OPTION: never
+	DATA_ASSIMILATION: ['CPL:FALSE', 'ATM:FALSE', 'LND:FALSE', 'ICE:FALSE', 'OCN:FALSE', 'ROF:FALSE', 'GLC:FALSE', 'WAV:FALSE']
+	DATA_ASSIMILATION_CYCLES: 1
+	DATA_ASSIMILATION_SCRIPT: 
+ 
+
+-------------------------------------------------------------------------
+Time to check the case.
+
+1)  Scan the output from this setup script for errors and warnings:
+    ERROR, WARNING, 'No such file' (except for MOSART)
+    'File status unknown' can be ignored.
+    'ERROR: cice.buildlib failed' can be ignored, unless you've changed the CICE code
+
+2)  cd /work/csp/mg20022/CESM2/case_template/run
+    Check the files that were staged; follow the links to confirm the data sources.
+    Check the compatibility between them and the namelists and pointer files.
+
+3)  cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+    Verify the CESM XML settings, especially in env_batch.xml and env_run.xml.
+    ./xmlquery --partial <partial_string_of_interest> 
+    is particularly useful.
+
+4)  The default initial configuration is to do NO ASSIMILATION.
+    When you are ready to add data assimilation, follow the instructions in 
+    /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template/DART_config. 
+
+5)  Submit the job (and get mail when it starts and stops):
+    ./case.submit -M begin,end
+
+6)  After the job has run, check to make sure it worked.
+
+7)  If the first cycle generated an ensemble by perturbing a single state,
+    change input.nml as described in the instructions in it,
+    to make cycles 2,...,N use the latest ensemble, unperturbed.
+
+8)  To extend the run in 9 'nhours' steps, use xmlchange to
+    change the CESM runtime variables:
+
+    ./xmlchange DATA_ASSIMILATION_CYCLES= the value you want.
+    ./xmlchange CONTINUE_RUN=TRUE
+    ./xmlchange RESUBMIT= the number of JOBS to run (each JOB performs DATA_ASSIMILATION_CYCLES cycles)
+
+    If the first cycle generated an ensemble from a single state, change input.nml as described in the 
+       instructions in it, to make cycles 2,...,N use the latest ensemble, unperturbed.
+    Change values in env_batch.xml to accommodate longer runs.
++ awk '/setenv case /{print $NF}' ../case_archive/case.template
++ case=case_template
++ awk '/setenv cesmroot/{print $NF}' ../case_archive/case.template
++ sed 's/${USER}/mg20022/g;               s/${CESMDIR}/cesm2.1.4-rc.08/g'
++ cesmroot=/users_home/csp/mg20022/cesm2.1.4-rc.08
++ sed 's/${USER}/mg20022/g;               s/${CESMEXP}/cesm-exp/g;               s/${case}/case_template/g'
++ awk '/setenv caseroot/{print $NF}' ../case_archive/case.template
++ caseroot=/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
++ echo -e 'Template case created'
+Template case created
++ echo -e 'Phase 1 (end)\n'
+Phase 1 (end)
+
++ echo -e 'Phase 2 (start): creation of the clones ...\n'
+Phase 2 (start): creation of the clones ...
+
++ inst=1
++ [ 1 -le 3 ]
++ echo -e 'member 1\n'
+member 1
+
++ printf _%04d 1
++ inst_string=_0001
++ new_case=/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0001
++ /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/scripts/create_clone --case /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0001 --clone /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+ Successfully created new case d4osystemecf_test2_0001 from clone case case_template 
+/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0001/env_mach_specific.xml already exists, delete to replace
+job is case.run USER_REQUESTED_WALLTIME 2:00 USER_REQUESTED_QUEUE p_short WALLTIME_FORMAT %H:%M
+Creating batch scripts
+Writing case.run script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.case.run
+Creating file .case.run
+Writing case.st_archive script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.st_archive
+Creating file case.st_archive
+If an old case build already exists, might want to run 'case.build --clean' before building
+Updating file env_mach_specific.xml
+You can now run './preview_run' to get more info on how your case will be run
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0001
++ sed -i s/_0001/_0001/g user_nl_cam_0001
++ /usr/bin/mv user_nl_cam_0001 user_nl_cam
++ sed -i s/_0001/_0001/g user_nl_cice_0001
++ /usr/bin/mv user_nl_cice_0001 user_nl_cice
++ /usr/bin/mv user_nl_clm_0001 user_nl_clm
++ ./xmlquery RUNDIR --value
++ RUNDIR=/work/csp/mg20022/CESM2/d4osystemecf_test2_0001/run
++ ./xmlquery RUN_REFCASE --value
++ refcase=ic_phase1
++ ./xmlquery RUN_REFDIR --value
++ stagedir=/work/csp/gc02720/ic/ic_phase1_83L
++ ./xmlquery RUN_REFDATE --value
++ refdate=2017-10-02
++ ./xmlquery RUN_REFTOD --value
++ reftod=00000
++ ./xmlquery COMP_ROF --value
++ COMP_ROF=mosart
++ init_time=2017-10-02-00000
++ echo finidat=$'\'ic_phase1_0001.clm2.r.2017-10-02-00000.nc\''
++ 1>> user_nl_clm
++ echo finidat_rtm=$'\'ic_phase1_0001.mosart.r.2017-10-02-00000.nc\''
++ 1>> user_nl_mosart
++ sed -i s/ICE_IC_TEMPLATE/ic_phase1_0001.cice.r.2017-10-02-00000.nc/g user_nl_cice
++ sed -i s/NCDATA_TEMPLATE/cam_initial_0001.nc/g user_nl_cam
++ echo 'Staging initial files for instance 1 of 3'
+Staging initial files for instance 1 of 3
++ cd /work/csp/mg20022/CESM2/d4osystemecf_test2_0001/run
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0001.clm2.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0001.cice.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0001.cam.i.2017-10-02-00000.nc cam_initial_0001.nc
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0001.mosart.r.2017-10-02-00000.nc .
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0001
++ echo ''
+
++ echo 'Copy executable'
+Copy executable
++ echo ''
+
++ ./xmlchange --file env_build.xml --id BUILD_COMPLETE --val TRUE
+setting case file to env_build.xml
++ ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
+setting case file to env_build.xml
++ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0001/run/../bld/cesm.exe
++ echo 1+1
++ bc
++ inst=2
++ [ 2 -le 3 ]
++ echo -e 'member 2\n'
+member 2
+
++ printf _%04d 2
++ inst_string=_0002
++ new_case=/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0002
++ /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/scripts/create_clone --case /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0002 --clone /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+ Successfully created new case d4osystemecf_test2_0002 from clone case case_template 
+/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0002/env_mach_specific.xml already exists, delete to replace
+job is case.run USER_REQUESTED_WALLTIME 2:00 USER_REQUESTED_QUEUE p_short WALLTIME_FORMAT %H:%M
+Creating batch scripts
+Writing case.run script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.case.run
+Creating file .case.run
+Writing case.st_archive script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.st_archive
+Creating file case.st_archive
+If an old case build already exists, might want to run 'case.build --clean' before building
+Updating file env_mach_specific.xml
+You can now run './preview_run' to get more info on how your case will be run
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0002
++ sed -i s/_0001/_0002/g user_nl_cam_0001
++ /usr/bin/mv user_nl_cam_0001 user_nl_cam
++ sed -i s/_0001/_0002/g user_nl_cice_0001
++ /usr/bin/mv user_nl_cice_0001 user_nl_cice
++ /usr/bin/mv user_nl_clm_0001 user_nl_clm
++ ./xmlquery RUNDIR --value
++ RUNDIR=/work/csp/mg20022/CESM2/d4osystemecf_test2_0002/run
++ ./xmlquery RUN_REFCASE --value
++ refcase=ic_phase1
++ ./xmlquery RUN_REFDIR --value
++ stagedir=/work/csp/gc02720/ic/ic_phase1_83L
++ ./xmlquery RUN_REFDATE --value
++ refdate=2017-10-02
++ ./xmlquery RUN_REFTOD --value
++ reftod=00000
++ ./xmlquery COMP_ROF --value
++ COMP_ROF=mosart
++ init_time=2017-10-02-00000
++ echo finidat=$'\'ic_phase1_0002.clm2.r.2017-10-02-00000.nc\''
++ 1>> user_nl_clm
++ echo finidat_rtm=$'\'ic_phase1_0002.mosart.r.2017-10-02-00000.nc\''
++ 1>> user_nl_mosart
++ sed -i s/ICE_IC_TEMPLATE/ic_phase1_0002.cice.r.2017-10-02-00000.nc/g user_nl_cice
++ sed -i s/NCDATA_TEMPLATE/cam_initial_0002.nc/g user_nl_cam
++ echo 'Staging initial files for instance 2 of 3'
+Staging initial files for instance 2 of 3
++ cd /work/csp/mg20022/CESM2/d4osystemecf_test2_0002/run
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0002.clm2.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0002.cice.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0002.cam.i.2017-10-02-00000.nc cam_initial_0002.nc
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0002.mosart.r.2017-10-02-00000.nc .
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0002
++ echo ''
+
++ echo 'Copy executable'
+Copy executable
++ echo ''
+
++ ./xmlchange --file env_build.xml --id BUILD_COMPLETE --val TRUE
+setting case file to env_build.xml
++ ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
+setting case file to env_build.xml
++ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0002/run/../bld/cesm.exe
++ echo 2+1
++ bc
++ inst=3
++ [ 3 -le 3 ]
++ echo -e 'member 3\n'
+member 3
+
++ printf _%04d 3
++ inst_string=_0003
++ new_case=/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0003
++ /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/scripts/create_clone --case /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0003 --clone /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/case_template
+ Successfully created new case d4osystemecf_test2_0003 from clone case case_template 
+/users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0003/env_mach_specific.xml already exists, delete to replace
+job is case.run USER_REQUESTED_WALLTIME 2:00 USER_REQUESTED_QUEUE p_short WALLTIME_FORMAT %H:%M
+Creating batch scripts
+Writing case.run script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.case.run
+Creating file .case.run
+Writing case.st_archive script from input template /users_home/csp/mg20022/cesm2.1.4-rc.08/cime/config/cesm/machines/template.st_archive
+Creating file case.st_archive
+If an old case build already exists, might want to run 'case.build --clean' before building
+Updating file env_mach_specific.xml
+You can now run './preview_run' to get more info on how your case will be run
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0003
++ sed -i s/_0001/_0003/g user_nl_cam_0001
++ /usr/bin/mv user_nl_cam_0001 user_nl_cam
++ sed -i s/_0001/_0003/g user_nl_cice_0001
++ /usr/bin/mv user_nl_cice_0001 user_nl_cice
++ /usr/bin/mv user_nl_clm_0001 user_nl_clm
++ ./xmlquery RUNDIR --value
++ RUNDIR=/work/csp/mg20022/CESM2/d4osystemecf_test2_0003/run
++ ./xmlquery RUN_REFCASE --value
++ refcase=ic_phase1
++ ./xmlquery RUN_REFDIR --value
++ stagedir=/work/csp/gc02720/ic/ic_phase1_83L
++ ./xmlquery RUN_REFDATE --value
++ refdate=2017-10-02
++ ./xmlquery RUN_REFTOD --value
++ reftod=00000
++ ./xmlquery COMP_ROF --value
++ COMP_ROF=mosart
++ init_time=2017-10-02-00000
++ echo finidat=$'\'ic_phase1_0003.clm2.r.2017-10-02-00000.nc\''
++ 1>> user_nl_clm
++ echo finidat_rtm=$'\'ic_phase1_0003.mosart.r.2017-10-02-00000.nc\''
++ 1>> user_nl_mosart
++ sed -i s/ICE_IC_TEMPLATE/ic_phase1_0003.cice.r.2017-10-02-00000.nc/g user_nl_cice
++ sed -i s/NCDATA_TEMPLATE/cam_initial_0003.nc/g user_nl_cam
++ echo 'Staging initial files for instance 3 of 3'
+Staging initial files for instance 3 of 3
++ cd /work/csp/mg20022/CESM2/d4osystemecf_test2_0003/run
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0003.clm2.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0003.cice.r.2017-10-02-00000.nc .
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0003.cam.i.2017-10-02-00000.nc cam_initial_0003.nc
++ /usr/bin/ln -s -f /work/csp/gc02720/ic/ic_phase1_83L/ic_phase1_0003.mosart.r.2017-10-02-00000.nc .
++ cd /users_home/csp/mg20022/cesm-exp/d4osystemecf_test2/d4osystemecf_test2_0003
++ echo ''
+
++ echo 'Copy executable'
+Copy executable
++ echo ''
+
++ ./xmlchange --file env_build.xml --id BUILD_COMPLETE --val TRUE
+setting case file to env_build.xml
++ ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
+setting case file to env_build.xml
++ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0003/run/../bld/cesm.exe
++ echo 3+1
++ bc
++ inst=4
++ [ 4 -le 3 ]
++ echo -e 'Phase 2 (end): \n'
+Phase 2 (end): 
+
++ echo -e 'Copy DART necessary files  in the tmp working dir'
+Copy DART necessary files  in the tmp working dir
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2
++ /usr/bin/mv /work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml.original
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ echo ' Copy RTTOV db file'
+ Copy RTTOV db file
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ ts=1
++ [ 1 -le 13 ]
++ echo -e 'time slot creation: TS= 1'
+time slot creation: TS= 1
++ tsname=TS1
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS1/.
++ echo 1+1
++ bc
++ ts=2
++ [ 2 -le 13 ]
++ echo -e 'time slot creation: TS= 2'
+time slot creation: TS= 2
++ tsname=TS2
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS2/.
++ echo 2+1
++ bc
++ ts=3
++ [ 3 -le 13 ]
++ echo -e 'time slot creation: TS= 3'
+time slot creation: TS= 3
++ tsname=TS3
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS3/.
++ echo 3+1
++ bc
++ ts=4
++ [ 4 -le 13 ]
++ echo -e 'time slot creation: TS= 4'
+time slot creation: TS= 4
++ tsname=TS4
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS4/.
++ echo 4+1
++ bc
++ ts=5
++ [ 5 -le 13 ]
++ echo -e 'time slot creation: TS= 5'
+time slot creation: TS= 5
++ tsname=TS5
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS5/.
++ echo 5+1
++ bc
++ ts=6
++ [ 6 -le 13 ]
++ echo -e 'time slot creation: TS= 6'
+time slot creation: TS= 6
++ tsname=TS6
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS6/.
++ echo 6+1
++ bc
++ ts=7
++ [ 7 -le 13 ]
++ echo -e 'time slot creation: TS= 7'
+time slot creation: TS= 7
++ tsname=TS7
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS7/.
++ echo 7+1
++ bc
++ ts=8
++ [ 8 -le 13 ]
++ echo -e 'time slot creation: TS= 8'
+time slot creation: TS= 8
++ tsname=TS8
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS8/.
++ echo 8+1
++ bc
++ ts=9
++ [ 9 -le 13 ]
++ echo -e 'time slot creation: TS= 9'
+time slot creation: TS= 9
++ tsname=TS9
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS9/.
++ echo 9+1
++ bc
++ ts=10
++ [ 10 -le 13 ]
++ echo -e 'time slot creation: TS= 10'
+time slot creation: TS= 10
++ tsname=TS10
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS10/.
++ echo 10+1
++ bc
++ ts=11
++ [ 11 -le 13 ]
++ echo -e 'time slot creation: TS= 11'
+time slot creation: TS= 11
++ tsname=TS11
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS11/.
++ echo 11+1
++ bc
++ ts=12
++ [ 12 -le 13 ]
++ echo -e 'time slot creation: TS= 12'
+time slot creation: TS= 12
++ tsname=TS12
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS12/.
++ echo 12+1
++ bc
++ ts=13
++ [ 13 -le 13 ]
++ echo -e 'time slot creation: TS= 13'
+time slot creation: TS= 13
++ tsname=TS13
++ mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/input.nml
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/.
++ /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//observations/forward_operators/rttov_sensor_db.csv /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/.
++ /usr/bin/cp '--preserve=timestamps' /users_home/csp/mg20022/rttov123/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/TS13/.
++ echo 13+1
++ bc
++ ts=14
++ [ 14 -le 13 ]
++ echo -e '\n Modify case_assimilate.sh using the right number of nodes! TO DO!!!!\n'
+
+ Modify case_assimilate.sh using the right number of nodes! TO DO!!!!
+
++ echo -e '\n END EXPERIMENT CREATION \n'
+
+ END EXPERIMENT CREATION 
+
++ echo ''
+
++ echo '----- END TASK ---'
+----- END TASK ---
++ echo ''
+
++ ecflow_client '--label=Info' 'OK... 20230117  09:31'
++ wait
++ ecflow_client --complete
++ trap 0
++ exit 0

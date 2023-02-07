@@ -1,0 +1,26 @@
+%include <includes/head.h>
+
+export CESMEXP='cesm-exp'
+export CLONESROOT="/users_home/csp/${USER}/${CESMEXP}/%case_name%/%case_name%_0001"
+export CESMDATAROOT='/data/inputs/CESM'
+
+
+export CESMDATAROOT='/data/inputs/CESM'
+export CESMEXP='cesm-exp'
+export CESMDIR='cesm2.1.4-rc.08'
+cd ${CLONESROOT}
+
+# var=$($(echo "VARIABEL") | grep 'Submitted job id is' 
+
+date
+./case.submit > ${CLONESROOT}/submit_message
+
+message=$(cat ${CLONESROOT}/submit_message | grep 'Submitted job id is' | awk '{print $5}')
+
+#echo "${message}"
+
+bwait -w 'ended(*mecf_0001)'
+date
+
+
+%include <includes/tail.h>

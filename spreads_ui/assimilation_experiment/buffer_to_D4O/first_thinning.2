@@ -1,0 +1,32 @@
++ set -o pipefail
++ ECF_PORT=3142
++ export ECF_PORT
++ ECF_HOST=nitro5
++ export ECF_HOST
++ ECF_NAME=/assimilation/assimilation/buffer_to_D4O/first_thinning
++ export ECF_NAME
++ ECF_PASS=LxNUgcEk
++ export ECF_PASS
++ ECF_TRYNO=2
++ export ECF_TRYNO
++ ECF_RID=21873
++ export ECF_RID
++ PATH=/Users/marceloguatura/Documents/ecflow/server/bin:/home/guatura/bin:/home/guatura/anaconda3/envs/ecflow/bin:/home/guatura/anaconda3/condabin:/home/guatura/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ export PATH
++ ecflow_client '--init=21873'
++ trap ERROR 0
++ trap '{ echo "Killed by a signal"; ERROR ; }' 1 2 3 4 5 6 7 8 10 12 13 15
++ date
+qui 15 dez 2022 15:42:06 -03
++ sleep 30
++ echo ''
+
++ echo '----- END TASK ---'
+----- END TASK ---
++ echo ''
+
++ ecflow_client '--label=Info' 'OK... 20221215  18:42'
++ wait
++ ecflow_client --complete
++ trap 0
++ exit 0
