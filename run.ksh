@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 echo -e "\n1) List servers running"
-echo "2) Clone suite spreads_ui"
+# echo "2) Clone suite spreads_ui"
 echo "3) Clone suite experiments"
 echo -e "4) Exit\n"
 
@@ -24,22 +24,26 @@ case ${opt} in
         echo -e "\nUsername, Start date, port"
         ps -ef | grep ecflow_server | grep 'port=' | awk '{print $1, $5, $9}' ;;
 
-    2)
-        # CLONE SPREADS UI SUITE
-        echo -e "\nStarting to clone spreads_ui..."
-        HOMECLONE='/work/csp/mg20022/ecflow'
-        rsync -azh --info=progress2 --exclude 'd4osystem*' --human-readable --exclude 'clone' --exclude 'login1.*' --exclude 'cookbook' --exclude 'TMPD4OSYSTEM*' --exclude '*.job*' ${HOMECLONE}/ .
+    # 2)
+    #     # CLONE SPREADS UI SUITE
+    #     echo -e "\nStarting to clone spreads_ui..."
+    #     HOMECLONE='/work/csp/mg20022/ecflow'
+    #     rsync -azh --info=progress2 --exclude 'd4osystem*' --human-readable --exclude 'clone' --exclude 'login1.*' --exclude 'cookbook' --exclude 'TMPD4OSYSTEM*' --exclude '*.job*' ${HOMECLONE}/ .
 
-        echo -e "\nReplacing information to the new path...\n"    
-        old_path='/work/csp/mg20022/ecflow'
-        new_path=$(pwd)
-        grep -RiIl ${old_path} | xargs sed -i "s@$old_path@$new_path@g" 
-        grep -RiIl "CLONE_AREA" | xargs sed -i "s@"CLONE_AREA"@$old_path@g" 
+    #     echo -e "\nReplacing information to the new path...\n"    
+    #     old_path='/work/csp/mg20022/ecflow'
+    #     new_path=$(pwd)
+    #     grep -RiIl ${old_path} | xargs sed -i "s@$old_path@$new_path@g" 
+    #     grep -RiIl "CLONE_AREA" | xargs sed -i "s@"CLONE_AREA"@$old_path@g" 
 
-        echo -e "\nClone Spreads_ui finished.\n" ;;
+    #     echo -e "\nClone Spreads_ui finished.\n" ;;
     
     4)
 
-        echo "Goodbye ${USER}!"
+        echo "Goodbye ${USER}."
+        exit ;;
+    *)
+        echo "Invalid option!"
+        echo "Goodbye ${USER}."
         exit ;;
 esac
