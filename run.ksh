@@ -42,8 +42,4 @@ case ${opt} in
 
         echo "Goodbye ${USER}."
         exit ;;
-    *)
-        echo "Invalid option!"
-        echo "Goodbye ${USER}."
-        exit ;;
 esac
