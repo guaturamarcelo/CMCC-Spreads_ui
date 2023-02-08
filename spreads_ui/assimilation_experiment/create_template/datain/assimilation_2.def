@@ -1,8 +1,8 @@
 suite assimilation_2
 
-    edit ECF_HOME "/work/csp/mg20022/ecflow/operation" 
+    edit ECF_HOME "/work/csp/mg20022/github/CMCC-Suite/operation" 
     edit ECF_HOST "zeus" 
-    edit ECF_INCLUDE "/work/csp/mg20022/ecflow/operation/includes"
+    edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Suite/operation/includes"
 
     defstatus suspended #queued
 
