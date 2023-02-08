@@ -16,8 +16,7 @@ The CMCC suite was developed to provide a common tool to create and manage new e
 * C
 * Any modifications needed to be made to files/folders
 ```console
-foo@bar:~$ whoami
-foo
+whoami
 ```
 ### Executing program
 
