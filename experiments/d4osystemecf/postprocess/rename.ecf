@@ -1,0 +1,203 @@
+%include <includes/head.h>
+
+stages_all='{,forecast,output'
+
+# ==============================================================================
+# Block 8: Rename the output using the CESM file-naming convention.
+# ==============================================================================
+
+# If output_state_file_list is filled with custom (CESM) filenames,
+# then 'output' ensemble members will not appear with filter's default,
+# hard-wired names.  But file types output_{mean,sd} will appear and be
+# renamed here.
+#
+# We don't know the exact set of files which will be written,
+# so loop over all possibilities: use LIST in the foreach.
+# LIST will expand the variables and wildcards, only existing files will be
+# in the foreach loop. (If the input.nml has num_output_state_members = 0,
+# there will be no output_member_xxxx.nc even though the 'output' stage
+# may be requested - for the mean and sd) 
+#
+# Handle files with instance numbers first.
+#    split off the .nc
+#    separate the pieces of the remainder
+#    grab all but the trailing 'member' and #### parts.
+#    and join them back together
+
+echo "`date` -- BEGIN FILE RENAMING"
+
+# The short-term archiver archives files depending on pieces of their names.
+# '_####.i.' files are CESM initial files.
+# '.dart.i.' files are ensemble statistics (mean, sd) of just the state variables 
+#            in the initial files.
+# '.e.'      designates a file as something from the 'external system processing ESP', e.g. DART.
+
+export TMPROOT="/work/csp/${USER}/CESM2/TMP"$(echo %case_name% | tr [:lower:] [:upper:])
+
+first_update=$(ecflow_client --query variable /%case_name%/filter_assim/departure_update:first_update)
+# first_update=$(printf "%%04d" ${first_update})
+first_update=$(echo "${first_update}" | sed 's/update_//g')
+
+last_update=$(ecflow_client --query variable /%case_name%/filter_assim/departure_update:last_update)
+last_update=$(echo "${last_update}" | sed 's/update_//g')
+
+cd ${TMPROOT}/TS${first_update}
+
+
+if [ ${stages_all} == 'forecast' ];then
+
+    for FILE in $(ls ${stages_all}_member_*.nc);do
+
+        export parts=$(echo $FILE | sed -e "s#\.# #g" | awk '{print $2}')
+        export list=$(echo $parts  | sed -e "s#_# #g")
+        export last=$(echo "$#list - 2" | bc ) # confirm numbers 
+        export dart_file=`echo $list[1-$last] | sed -e "s# #_#g"`
+
+        # DART 'output_member_****.nc' files are actually linked to cam input files
+
+        export type="e"
+        echo $FILE | grep "put"
+        if [ $status -eq 0 ];then
+        
+            export type="i"
+
+            # add variables
+            echo "Moving $FILE in ${case_name}.${scomp}_$list[$#list].${type}.${dart_file}.${ATM_DATE_EXT}.nc "
+            ${MOVE} $FILE  ${case_name}.${scomp}_$list[$#list].${type}.${dart_file}.${ATM_DATE_EXT}.nc || exit 150
+        fi
+    done
+    # Files without instance numbers need to have the scomp part of their names = "dart".
+    # This is because in st_archive, all files with  scomp = "cam"
+    # (= compname in env_archive.xml) will be st_archived using a pattern
+    # which has the instance number added onto it.  {mean,sd} files don't have 
+    # instance numbers, so they need to be archived by the "dart" section of env_archive.xml.
+    # But they still need to be different for each component, so include $scomp in the
+    # ".dart_file" part of the file name.  Somewhat awkward and inconsistent, but effective.
+
+    # Means and standard deviation files (except for inflation).
+    for FILE in $(ls ${stages_all}_{mean,sd}*.nc);do
+        echo "$FILE renaming"
+        export parts=`echo $FILE | sed -e "s#\.# #g"`
+        export type="e"
+        echo $FILE | grep "put"
+        if [ $status == 0 ];then
+            export type="i"
+            ${MOVE} $FILE ${case_name}.dart.${type}.${scomp}_$parts[1].${ATM_DATE_EXT}.nc || exit 160
+        fi
+
+    done
+else
+
+    echo "forecast not required, no renaming"
+
+fi
+
+
+cd ${TMPROOT}/TS${last_update}
+
+# inside here only with output and inflation (not forecast!)
+# Files without instance numbers need to have the scomp part of their names = "dart".
+# This is because in st_archive, all files with  scomp = "cam"
+# (= compname in env_archive.xml) will be st_archived using a pattern
+# which has the instance number added onto it.  {mean,sd} files don't have 
+# instance numbers, so they need to be archived by the "dart" section of env_archive.xml.
+# But they still need to be different for each component, so include $scomp in the
+# ".dart_file" part of the file name.  Somewhat awkward and inconsistent, but effective.
+
+# Means and standard deviation files (except for inflation).
+for FILE in $(ls ${stages_all}_{mean,sd}*.nc);do
+
+    echo "$FILE renaming"
+    export parts=`echo $FILE | sed -e "s#\.# #g"`
+    export type="e"
+    echo $FILE | grep "put"
+
+    if [ $status == 0 ];then 
+        export type="i"
+        ${MOVE} $FILE ${case_name}.dart.${type}.${scomp}_$parts[1].${ATM_DATE_EXT}.nc || exit 160
+    fi
+done
+# Rename the inflation files and designate them as 'rh' files - which get
+# reinstated in the run directory by the short-term archiver and are then
+# available for the next assimilation cycle.
+#
+# Accommodate any possible inflation files.
+# The .${scomp}_ part is needed by DART to distinguish
+# between inflation files from separate components in coupled assims.
+
+for FILE $(ls ${stages_all}_{prior,post}inf_*);do
+
+   export parts=$(echo $FILE | sed -e "s#\.# #g")
+   ${MOVE} $FILE  ${case_name}.dart.rh.${scomp}_$parts[1].${ATM_DATE_EXT}.nc || exit 180
+
+done
+
+# Handle localization_diagnostics_files
+export MYSTRING=`grep 'localization_diagnostics_file' input.nml`
+export MYSTRING=`echo $MYSTRING | sed -e "s#[=,']# #g"`
+export MYSTRING=`echo $MYSTRING | sed -e 's#"# #g'`
+# export loc_diag=$MYSTRING[2]
+export loc_diag=$(echo "$MYSTRING" | awk '{print $2}')
+
+if [ -f $loc_diag ]; then
+   ${MOVE} $loc_diag  ${scomp}_${loc_diag}.dart.e.${ATM_DATE_EXT} || exit 190
+fi
+
+# Handle regression diagnostics
+export MYSTRING=`grep 'reg_diagnostics_file' input.nml`
+export MYSTRING=`echo $MYSTRING | sed -e "s#[=,']# #g"`
+export MYSTRING=`echo $MYSTRING | sed -e 's#"# #g'`
+# export reg_diag=$MYSTRING[2]
+export reg_diag=$(echo "$MYSTRING" | awk '{print $2}')
+
+if [ -f $reg_diag ]; then
+   ${MOVE} $reg_diag  ${scomp}_${reg_diag}.dart.e.${ATM_DATE_EXT} || exit 200
+fi
+
+# Then this script will need to feed the files in output_restart_list_file
+# to the next model advance.
+# This gets the .i. or .r. piece from the CESM format file name.
+export line=$(grep 0001 $output_file_list_name | sed -e "s#[\.]# #g")
+echo ""
+echo "line= $line"
+export l=1
+while [ $l -lt $#line ];do
+   
+   if [ $line[$l] =~ ${scomp} ]; then
+
+      l=$(echo "${l}+1" | bc)
+      export file_type=$line[$l]
+      echo "file_type= $file_type"
+      break
+   fi
+   l=$(echo "${l}+1" | bc)
+done
+
+export member=1
+while [ ${member} -le ${nens} ];do
+
+   export inst_string=$(printf _%%04d $member)
+   cd $CASESRUNROOT/${case_name}$inst_string/run
+   echo " In `pwd` for i.c. renaming"
+   export ATM_INITIAL_FILENAME="${case_name}${inst_string}.cam.i.${ATM_DATE_EXT}.nc"
+   ${REMOVE} ${scomp}_initial${inst_string}.nc
+   echo " Link $ATM_INITIAL_FILENAME in ${scomp}_initial${inst_string}.nc "
+   ${LINK} $ATM_INITIAL_FILENAME ${scomp}_initial${inst_string}.nc || exit 210
+
+   member=$(echo "${member}+1" | bc)
+
+done
+
+echo "`date` -- END   FILE RENAMING"
+
+
+# Not used for the moment
+# Rename the observation file and run-time output
+# ${MOVE} obs_seq.final ${case_name}.dart.e.${scomp}_obs_seq_final.${ATM_DATE_EXT} || exit 170
+# ${MOVE} dart_log.out                 ${scomp}_dart_log.${ATM_DATE_EXT}.out || exit 171
+
+
+
+
+
+%include <includes/tail.h>

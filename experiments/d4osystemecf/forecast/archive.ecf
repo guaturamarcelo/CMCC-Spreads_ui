@@ -1,0 +1,9 @@
+%include <includes/head.h>
+
+#    DIRHOME=${ECF_HOME}/operation/model1/assimilation ; mkdir -p ${DIRHOME}
+
+
+    date
+    sleep 3
+
+%include <includes/tail.h>

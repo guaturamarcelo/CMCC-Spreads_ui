@@ -1,0 +1,106 @@
+%include <includes/head.h>
+
+export SCRIPTDIR="%ECF_HOME%/source/%case_name%/main_scripts"
+
+cd ${SCRIPTDIR}
+
+export nens=%nens%
+donepath=$(echo %ECF_NAME% | sed 's/%TASK%//g')
+
+# Number of forecast members
+FENS=%FENS%
+
+# Activate forecast at 00Z and 12Z
+FORECAST=%FORECAST%
+
+export CESMEXP='cesm-exp'
+export case_name=%case_name%
+export CLONESROOT="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
+export NTSLOTS=13
+export CASEROOT0001="$CLONESROOT/${case_name}_0001"
+
+export TMPROOT="/work/csp/${USER}/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
+
+first_update=$(ecflow_client --query variable /assimilation_2/filter_assim/departure_update:first_update)
+# first_update=$(printf "%%04d" ${first_update})
+first_update=$(echo "${first_update}" | sed 's/update_//g')
+
+last_update=$(ecflow_client --query variable /assimilation_2/filter_assim/departure_update:last_update)
+last_update=$(echo "${last_update}" | sed 's/update_//g')
+
+cd ${TMPROOT}/TS${first_update}
+export adir="${archive}/${case_name}/${case_name}-${ATM_DATE_EXT}"
+mkdir -p $adir
+
+echo ""
+echo "`date` -- START   ANALYSIS ARCHIVING"
+
+for update in $(echo "${first_update} ${last_update}");do
+
+    cd ${TMPROOT}/TS${update}
+
+    ${MOVE} *.{e,i}*${ATM_DATE_EXT}*  $adir
+
+    if [ ${update} -eq ${last_update} ];then
+
+        # inflation archive, remove the oldest files
+        if [ $INFVAL -eq 0 ]; then
+            echo  "\n No inflation used. Inflations files not hidden.\n"
+        else
+            echo  "\n Inflation used. Hide inflation files and delete the old ones.\n"
+            mkdir -p ../.HIDE_${case_name}
+            ${COPY} *.rh.cam_*inf*${ATM_DATE_EXT}*  $adir
+            ${MOVE} *.rh.cam_*inf*${ATM_DATE_EXT}*  ../.HIDE_${case_name}
+
+            set old_inf_files = `ls -rt1 *.rh.cam_*inf*.nc | wc -l`
+            
+            if ( $old_inf_files == 0 ) then
+                echo "Nothing to remove"
+            else
+                echo "Remove old inflation files"
+                ${REMOVE} *.dart.rh.cam_*inf*.nc
+            fi
+        fi
+
+    fi
+
+done
+
+for TS in $(echo {1..13});do
+
+    cd ${TMPROOT}/TS${TS}
+    ${MOVE} cam_dart_log.${ATM_DATE_EXT}*  ${adir}/TS${TS}_cam_dart_log.${ATM_DATE_EXT}*
+
+done
+
+# Restart management
+export member=1
+while [ ${member} <= ${nens} ];do
+
+   export inst_string=`printf _%%04d $member`
+   cd $CASESRUNROOT/${case_name}$inst_string/run
+
+   echo "\n Restart processes date $ATM_DATE[2]-$ATM_DATE[3]-$ATM_DATE[4] \n"
+   ## Save the restarts at the beginning of the year
+   #if ( "$ATM_DATE[2]-$ATM_DATE[3]-$ATM_DATE[4]" == "01-01-00000" ) then
+   # Save the restarts at the beginning of the month
+   if [ "$ATM_DATE[3]-$ATM_DATE[4]" -eq "01-00000" ]; then
+     echo "\n Copy the restart files ... \n"
+     ${COPY} *.{h0,r,rs,rs1}*${ATM_DATE_EXT}* ${adir}/
+     ${COPY} rpointer* ${adir}
+   fi
+
+   member=$(echo "${member}+1" | bc)
+done
+
+echo "`date` -- END   ANALYSIS ARCHIVING"
+
+
+cd ${SCRIPTDIR}
+cat check_assi.flag
+sed -i 's/0/1/g' check_assi.flag
+echo " wrote 1 in check_assi.flag"
+cat check_assi.flag
+
+
+%include <includes/tail.h>
