@@ -1,7 +1,7 @@
 #!/bin/ksh
 
-echo -e "\n1)Replace path "
-echo "2)  List servers running"
+echo -e "\n1) Replace path "
+echo "2) List servers running"
 echo "3) List experiments available"
 echo -e "4) Exit\n"
 
@@ -21,31 +21,32 @@ then
 
 else
 
-    case ${opt} in
-
-        1)
-            echo -e "\nReplacing information to the new path...\n"    
-            old_path='/work/csp/mg20022/github/CMCC-Suite'
-            new_path=$(pwd)
-            grep -RiIl ${old_path} | xargs sed -i "s@$old_path@$new_path@g" 
-            grep -RiIl "CLONE_AREA" | xargs sed -i "s@"CLONE_AREA"@$old_path@g" 
-
-            echo -e "\nClone Spreads_ui finished.\n" ;;
-        2)
-            echo -e "\nServers running on Zeus:"
-            echo -e "\nUsername, Start date, port"
-            ps -ef | grep ecflow_server | grep 'port=' | awk '{print $1, $5, $9}' ;;
-
-
-        3)
-            ls experiments/*.def | sed 's/experiments\///g' | sed 's/.def//g'
-
-            exit ;;
-        
-
-        4)
-
-            echo "Goodbye ${USER}."
-            exit ;;
-    esac
+    opt=$1
 fi
+case ${opt} in
+
+    1)
+        echo -e "\nReplacing information to the new path...\n"    
+        old_path='/work/csp/mg20022/github/CMCC-Suite'
+        new_path=$(pwd)
+        grep -RiIl ${old_path} | xargs sed -i "s@$old_path@$new_path@g" 
+        grep -RiIl "/work/csp/mg20022/github/CMCC-Suite" | xargs sed -i "s@"/work/csp/mg20022/github/CMCC-Suite"@$old_path@g" 
+
+        echo -e "\nClone Spreads_ui finished.\n" ;;
+    2)
+        echo -e "\nServers running on Zeus:"
+        echo -e "\nUsername, Start date, port"
+        ps -ef | grep ecflow_server | grep 'port=' | awk '{print $1, $5, $9}' ;;
+
+
+    3)
+        ls experiments/*.def | sed 's/experiments\///g' | sed 's/.def//g'
+
+        exit ;;
+    
+
+    4)
+
+        echo "Goodbye ${USER}."
+        exit ;;
+esac
