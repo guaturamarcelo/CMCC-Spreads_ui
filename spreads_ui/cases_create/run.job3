@@ -82,12 +82,12 @@ export dartroot="/work/csp/${USER}/CMCC-DART-RSYNC/CMCC-DART/"
 
 
 # DA working dir
-# tmpdir="/work/csp/mg20022/ecflow/source/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
+# tmpdir="/work/csp/mg20022/github/CMCC-Suite/source/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
 tmpdir="/work/csp/${USER}/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
 
 
 # Archive (to remove previous files)
-# archdir="/work/csp/mg20022/ecflow/source/CESM2/archive"
+# archdir="/work/csp/mg20022/github/CMCC-Suite/source/CESM2/archive"
 archdir="/work/csp/${USER}/CESM2/archive"
 
 # Set the obs dir
@@ -225,7 +225,7 @@ LIST='/usr/bin/ls'
 REMOVE='/usr/bin/rm -f'
 
 #maindir=`pwd`
-maindir="/work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts"
+maindir="/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/main_scripts"
 
 echo -e "\n START EXPERIMENT CREATION \n"
 
@@ -237,13 +237,13 @@ if [ ${nts} -eq 13 ];then
      exit 222
 fi
 
-if [ ! -d "/work/csp/mg20022/ecflow/source/d4osystemecf_test2/" ]; then
-#   cp -r --preserve "/work/csp/mg20022/ecflow/source/d4osystem" "/work/csp/mg20022/ecflow/source/d4osystemecf_test2"
-  cp -r --preserve "/work/csp/mg20022/ecflow/source/d4osystem" "/work/csp/mg20022/ecflow/source/d4osystemecf_test2"
+if [ ! -d "/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/" ]; then
+#   cp -r --preserve "/work/csp/mg20022/github/CMCC-Suite/source/d4osystem" "/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2"
+  cp -r --preserve "/work/csp/mg20022/github/CMCC-Suite/source/d4osystem" "/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2"
 
 fi
 
-cd "/work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts"
+cd "/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/main_scripts"
 
 script_name="case.template"
 ${COPY} ${dartnamelist} input.nml
@@ -259,14 +259,14 @@ if [ -d ${tmpdir} ]; then
 fi 
 if [ -d ${clonesroot} ]; then
    ${REMOVE} -fr ${clonesroot}
-   ${REMOVE} -fr /work/csp/mg20022/ecflow/source/CESM2/${case_name}_*
+   ${REMOVE} -fr /work/csp/mg20022/github/CMCC-Suite/source/CESM2/${case_name}_*
 fi
 
 # if forecast active in the previous experiment
 dirff=/work/csp/${USER}/cesm-exp/${case_name}-forecast
 if [ -d ${dirff} ]; then
    ${REMOVE} -fr ${dirff}
-   ${REMOVE} -fr /work/csp/mg20022/ecflow/source/CESM2/${case_name}_f_*
+   ${REMOVE} -fr /work/csp/mg20022/github/CMCC-Suite/source/CESM2/${case_name}_f_*
 fi
 
 
@@ -372,7 +372,7 @@ while [ $inst -le $nens ];do
 
    ./xmlchange --file env_build.xml --id BUILD_COMPLETE --val TRUE
    ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
-   cp "/work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe"  ${RUNDIR}/../bld/cesm.exe
+   cp "/work/csp/mg20022/github/CMCC-Suite/source/CESM2/case_template/bld/cesm.exe"  ${RUNDIR}/../bld/cesm.exe
 
 
    inst=$(echo "${inst}+1" | bc)

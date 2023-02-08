@@ -16,8 +16,8 @@
 + ecflow_client '--init=93470'
 + trap ERROR 0
 + trap '{ echo "Killed by a signal"; ERROR ; }' 1 2 3 4 5 6 7 8 10 12 13 15
-+ echo /work/csp/mg20022/ecflow/spreads_ui
-/work/csp/mg20022/ecflow/spreads_ui
++ echo /work/csp/mg20022/github/CMCC-Suite/spreads_ui
+/work/csp/mg20022/github/CMCC-Suite/spreads_ui
 + date
 Ter Jan 17 10:31:47 CET 2023
 + case_name=d4osystemecf_test2
@@ -226,16 +226,16 @@ Currently Loaded Modulefiles:
 + LINK='/usr/bin/ln -s'
 + LIST=/usr/bin/ls
 + REMOVE='/usr/bin/rm -f'
-+ maindir=/work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts
++ maindir=/work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/main_scripts
 + echo -e '\n START EXPERIMENT CREATION \n'
 
  START EXPERIMENT CREATION 
 
 + [ 13 -eq 13 ]
 + tcentral=7
-+ [ ! -d /work/csp/mg20022/ecflow/source/d4osystemecf_test2/ ]
-+ cp -r --preserve /work/csp/mg20022/ecflow/source/d4osystem /work/csp/mg20022/ecflow/source/d4osystemecf_test2
-+ cd /work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts
++ [ ! -d /work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/ ]
++ cp -r --preserve /work/csp/mg20022/github/CMCC-Suite/source/d4osystem /work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2
++ cd /work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/main_scripts
 + script_name=case.template
 + /usr/bin/cp '--preserve=timestamps' input.nml.original.rad input.nml
 + sed -i s/NUM_INSTANCE_TEMPLATE/3/g input.nml
@@ -624,7 +624,7 @@ Copy executable
 setting case file to env_build.xml
 + ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
 setting case file to env_build.xml
-+ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0001/run/../bld/cesm.exe
++ cp /work/csp/mg20022/github/CMCC-Suite/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0001/run/../bld/cesm.exe
 + echo 1+1
 + bc
 + inst=2
@@ -690,7 +690,7 @@ Copy executable
 setting case file to env_build.xml
 + ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
 setting case file to env_build.xml
-+ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0002/run/../bld/cesm.exe
++ cp /work/csp/mg20022/github/CMCC-Suite/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0002/run/../bld/cesm.exe
 + echo 2+1
 + bc
 + inst=3
@@ -756,7 +756,7 @@ Copy executable
 setting case file to env_build.xml
 + ./xmlchange --file env_build.xml --id BUILD_STATUS --val 0
 setting case file to env_build.xml
-+ cp /work/csp/mg20022/ecflow/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0003/run/../bld/cesm.exe
++ cp /work/csp/mg20022/github/CMCC-Suite/source/CESM2/case_template/bld/cesm.exe /work/csp/mg20022/CESM2/d4osystemecf_test2_0003/run/../bld/cesm.exe
 + echo 3+1
 + bc
 + inst=4
@@ -767,7 +767,7 @@ Phase 2 (end):
 + echo -e 'Copy DART necessary files  in the tmp working dir'
 Copy DART necessary files  in the tmp working dir
 + mkdir /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2
-+ /usr/bin/mv /work/csp/mg20022/ecflow/source/d4osystemecf_test2/main_scripts/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
++ /usr/bin/mv /work/csp/mg20022/github/CMCC-Suite/source/d4osystemecf_test2/main_scripts/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
 + /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/input.nml.original
 + /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/filter.dir/filter /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
 + /usr/bin/cp '--preserve=timestamps' /work/csp/mg20022/CMCC-DART-RSYNC/CMCC-DART//d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation_restart /work/csp/mg20022/CESM2/TMPD4OSYSTEMECF_TEST2/.
