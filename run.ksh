@@ -2,7 +2,7 @@
 
 echo -e "\n1) List servers running"
 echo "2) Replace path "
-echo "3) Clone suite experiments"
+echo "3) List experiments available"
 echo -e "4) Exit\n"
 
 while true
@@ -37,7 +37,13 @@ case ${opt} in
         grep -RiIl "CLONE_AREA" | xargs sed -i "s@"CLONE_AREA"@$old_path@g" 
 
         echo -e "\nClone Spreads_ui finished.\n" ;;
-    
+
+    3)
+        ls experiments/*.def | sed 's/experiments\///g' | sed 's/.def//g'
+
+        exit ;;
+       
+
     4)
 
         echo "Goodbye ${USER}."
