@@ -1,0 +1,33 @@
+%include <includes/head.h>
+
+export SCRIPTDIR="%ECF_HOME%/source/%case_name%/main_scripts"
+
+cd ${SCRIPTDIR}
+
+export nens=%nens%
+donepath=$(echo %ECF_NAME% | sed 's/%TASK%//g')
+
+# Number of forecast members
+FENS=%FENS%
+
+export CESMEXP='cesm-exp'
+export case_name=%case_name%
+export CLONESROOT="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
+export NTSLOTS=13
+export CASEROOT0001="$CLONESROOT/${case_name}_0001"
+export TMPROOT="/work/csp/${USER}/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
+
+grep "1" check_assi.flag
+status=$?
+if [ $status -eq 0 ]
+   then
+      # Forecast phase
+      if [ $FORECAST = "TRUE" ]
+      then
+         sh cases_forecast.sh ${case_name} ${nens} ${FENS}
+      fi   
+else
+   echo " assimilation did not work properly, forecast and cleaning procedures are skipped"
+fi 
+
+%include <includes/tail.h>

@@ -1,0 +1,723 @@
+%include <includes/head.h>
+
+export SCRIPTDIR="%ECF_HOME%/source/%case_name%/main_scripts"
+
+cd ${SCRIPTDIR}
+
+export CESMEXP='cesm-exp'
+export case_name=%case_name%
+export CLONESROOT="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
+export NTSLOTS=13
+export CASEROOT0001="$CLONESROOT/${case_name}_0001"
+export TMPROOT="/work/csp/${USER}/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
+
+source /etc/profile.d/modules.sh
+source /data/csp/${USER}/d4o/install/INTEL/source.me
+#===================================================
+#
+#
+#
+#===================================================
+
+
+# DART software - Copyright UCAR. This open source software is provided
+# by UCAR, "as is", without charge, subject to all terms of use at
+# http://www.image.ucar.edu/DAReS/DART/DART_download
+#
+# DART $Id$
+
+# ------------------------------------------------------------------------------
+# Purpose: assimilate with a CAM ensemble and perform advanced archiving
+#          and compression in support of multiple assimilation cycles in a
+#          single CESM job.
+#
+# The (resulting) assimilate.csh script is called by CESM with two arguments:
+# 1) the CASEROOT, and
+# 2) the assimilation cycle number in this CESM job
+# ------------------------------------------------------------------------------
+# This template is lightly modified by the exportup scripts to be appropriate
+# for specific hardware and other configurations. The modified result is
+# then given execute permission and is appropriate to use for an assimilation.
+# All of this is automatically performed by the DART-supplied exportup scripts.
+#
+# Tag DART's state output with names using CESM's convention:
+#    ${case}.${scomp}[_$inst].${filetype}[.$dart_file].${date}.nc
+#    These should all be named with $scomp = "cam" to distinguish
+#    them from the same output from other components in multi-component assims.
+#
+# This script also has logic in it to manage disk space in a way that allows
+# for more assimilation cycles to be performed before archiving without losing
+# critical restart capability. The same logic is also useful for assimilations
+# that may require multiple timesteps to be available.
+#
+# As a specific example, consider the case when 3 assimilation cycles have been
+# performed: 6Z, 12Z, 18Z.
+# If we want to keep a restart export and a backup
+# restart export, we only need the 18Z and 12Z, so the 6Z export can be removed.
+# Let's also say that its the last cycle of job - which automatically kicks off
+# the short-term archiver. If we did 'nothing', the 12Z and 18Z get archived
+# and the 18Z gets restaged
+
+## D4O
+module purge
+module load cmake/3.17.3
+module load intel20.1/20.1.217
+module load intel20.1/szip/2.1.1
+module load curl/7.70.0
+module load impi20.1/19.7.217
+#module load anaconda/3.9 # gives access to python 3 PAY ATTENTION IT CAN INTERFERE WITH THE PYTHON SCRIPT USED!
+module load dbi/1.643
+module load sqlite/3.38.0
+module load dbd-sqlite/1.70
+module load anaconda/2.7
+
+# ==============================================================================
+# Block 0: Set command environment
+# ==============================================================================
+# This block is an attempt to localize all the machine-specific
+# changes to this script such that the same script can be used
+# on multiple platforms. This will help us maintain the script.
+
+echo "`date` -- BEGIN CAM_ASSIMILATE"
+
+export nonomatch      # suppress "rm" warnings if wildcard does not match anything
+
+
+# CESM uses C indexing on loops; cycle = [0,....,$DATA_ASSIMILATION_CYCLES - 1]
+# "Fix" that here, so the rest of the script isn't confusing.
+
+#@ cycle = $2 + 1
+
+# Set some env variables
+export SCRIPTDIR=`pwd`
+echo "SCRIPTDIR= $SCRIPTDIR"
+
+# export CLONESROOT=`grep "clonesroot=" $SCRIPTDIR/cases_create.sh | sed -e "s/=/ /; s/USER/$USER/; s/CESMEXP/$CESMEXP/"`
+# export CLONESROOT=$CLONESROOT[3]
+# export CLONESROOT=`echo $CLONESROOT | sed -e 's/"//g; s/\$//g'`
+#export CLONESROOT=`echo $CLONESROOT | sed -e 's/\$//g'`
+echo " CLONESROOT=  $CLONESROOT"
+
+# export case_name=`grep "case_name=" $SCRIPTDIR/cases_create.sh | sed -e "s/=/ /g"`
+# export case_name=`echo $case_name | sed -e 's/"//g'`
+# export case_name=$case_name
+echo " case_name= $case_name"
+
+
+# export NTSLOTS=`grep "nts=" $SCRIPTDIR/cases_create.sh | sed -e "s/=/ /"`
+export NTSLOTS=13
+
+# export CASEROOT0001="$CLONESROOT/${case_name}_0001"
+
+cd ${CASEROOT0001}
+echo $SHELL
+echo " xmlquery start"
+export scomp=`./xmlquery COMP_ATM      --value`
+export CASE=`./xmlquery CASE          --value`
+export ensemble_size=`./xmlquery NINST_ATM     --value`
+export CAM_DYCORE=`./xmlquery CAM_DYCORE    --value`
+export EXEROOT=`./xmlquery EXEROOT       --value`
+export RUNDIR=`./xmlquery RUNDIR        --value`
+export archive=`./xmlquery DOUT_S_ROOT   --value`
+# export TOTALPES=`./xmlquery TOTALPES      --value`
+
+export CONT_RUN=`./xmlquery CONTINUE_RUN  --value`
+# when you make a long forecast run without assimilation and then you want to assimilate obs but you do not have
+# inflation files then  force one cycle CONT_RUN FALSE
+#exportenv CONT_RUN                  FALSE
+
+export CHECK_TIMING=`./xmlquery CHECK_TIMING  --value`
+export DATA_ASSIMILATION_CYCLES=`./xmlquery DATA_ASSIMILATION_CYCLES --value`
+echo " xmlquery end"
+
+export nens=%nens%
+# export TOTALPES=`echo $TOTALPES*$nens | bc`
+# echo " TOTALPES= $TOTALPES"
+
+
+# export TMPROOT=`grep "tmpdir=" $SCRIPTDIR/cases_create.sh | sed -e "s/=/ /; s/USER/$USER/"`
+# export TMPROOT=$TMPROOT[2]
+# export TMPROOT=`echo $TMPROOT | sed -e 's/\$//g; s/"//g'`
+echo " TMPROOT= $TMPROOT"
+
+export CASESRUNROOT=`echo $RUNDIR | sed -e "s/\/${case_name}_0001\/run//g" `
+echo " CASESRUNROOT= $CASESRUNROOT"
+ 
+export MP_DEBUG_NOTIMEOUT=yes
+export NUMTASKS_PERNODE='36'
+
+# Check if the CESM evolution finished correctly
+cd ${SCRIPTDIR}
+
+#sh cases_check.sh #now also in merge
+# ${SCRIPTDIR}/take_f.sh
+chmod 755 ${SCRIPTDIR}/run_filter.bash
+#chmod 755 ${SCRIPTDIR}/cases_bogus.csh ${SCRIPTDIR}/take_i.sh ${SCRIPTDIR}/take_f.sh ${SCRIPTDIR}/run_filter.csh
+#cp ${SCRIPTDIR}/cases_bogus_preproc.csh ${TMPROOT}/.
+cp ${SCRIPTDIR}/cases_bogus_filter.csh ${TMPROOT}/.
+#cp ${SCRIPTDIR}/take_i.sh ${TMPROOT}/.
+# cp ${SCRIPTDIR}/take_f.sh ${TMPROOT}/.
+cp ${SCRIPTDIR}/run_filter.bash ${TMPROOT}/.
+cp ${SCRIPTDIR}/rep_inflation.py ${TMPROOT}/.
+cp ${SCRIPTDIR}/rep_input.py ${TMPROOT}/.
+cd ${RUNDIR}
+echo "rundir"
+pwd
+
+# A switch to save all the inflation files
+export save_all_inf="TRUE"
+
+# This may be needed before the short-term archiver has been run.
+if [ ! -d ${archive}/esp/hist ];then 
+
+    mkdir -p ${archive}/esp/hist
+fi
+
+# If they exist, mean and sd will always be saved.
+# A switch to signal how often to save the stages' ensemble members.
+#     valid values are:  NONE, RESTART_TIMES, ALL
+export save_stages_freq="RESTART_TIMES"
+
+# This next line ultimately specifies the location of the observation files.
+#export BASEOBSDIR = "/work/csp/${USER}/observations"
+#export BASEOBSDIR = "/work/csp/gc02720/borg/observations/amsua"
+#export BASEOBSDIR = "/users_home/csp/sm09722/BUFR_D4O"
+export BASEOBSDIR="/users_home/csp/sm09722/BUFR_D4O"
+
+# suppress "rm" warnings if wildcard does not match anything
+export nonomatch
+
+# Make sure that this script is using standard system commands
+# instead of aliases defined by the user.
+# If the standard commands are not in the location listed below,
+# change the 'export' commands to use them.
+# The VERBOSE options are useful for debugging, but are optional because
+# some systems don't like the -v option to any of the following.
+
+export   MOVE='/usr/bin/mv -v'
+export   COPY='/usr/bin/cp -v --preserve=timestamps'
+export   LINK='/usr/bin/ln -s'
+export   LIST='/usr/bin/ls '
+export REMOVE='/usr/bin/rm -r'
+
+# ==============================================================================
+# Block 1: Determine time of current model state from file name of member 1
+# These are of the form "${CASE}.cam_${ensemble_member}.i.2000-01-06-00000.nc"
+# ==============================================================================
+
+# Piping stuff through 'bc' strips off any preceeding zeros.
+
+export FILE=`head -n 1 rpointer.atm`
+# export FILE=$FILE:r
+export ATM_DATE_EXT=$(echo "${FILE}" | cut -d "." -f 4)
+export ATM_DATE=$(echo "${FILE}" | cut -d "." -f 4)
+export ATM_YEAR=$(echo "${ATM_DATE}" | cut -d "-" -f 1)
+export ATM_MONTH=$(echo "${ATM_DATE}" | cut -d "-" -f 2)
+export ATM_DAY=$(echo "${ATM_DATE}" | cut -d "-" -f 3)
+export ATM_SECONDS=$(echo "${ATM_DATE}" | cut -d "-" -f 4)
+export ATM_HOUR=$(echo "${ATM_SECONDS} / 3600" | bc)
+
+echo "valid time of model is $ATM_YEAR $ATM_MONTH $ATM_DAY $ATM_SECONDS (seconds)"
+echo "valid time of model is $ATM_YEAR $ATM_MONTH $ATM_DAY $ATM_HOUR (hours)"
+
+
+# Move the previous inflation restart in the TMPDIR (both mean and sd)
+cd ${TMPROOT}
+export  INFVAL=$(grep inf_flavor input.nml)
+export  INFVAL=$(echo $INFVAL | cut -d '=' -f 2 | cut -d ',' -f 1)
+# export  INFVAL=$INFVAL[2]
+echo "INFVAL = $INFVAL"
+
+if [ $INFVAL == 0 ];then
+      echo  " No inflation used. Inflations files not restaged from previous run if any exist."
+else
+   echo  " Inflation used. Restage  previous inflation files if any exist."
+   if [ -d .HIDE_${case_name} ]; then
+      echo " Found HIDE dir ..."
+      export c=`ls -a .HIDE_${case_name} | wc | awk '{print $1}'`
+      if [ "${c}" == 2 ]; then 
+            echo " Empty directory"
+            echo " No old inflation files found."
+      else
+            ${MOVE} .HIDE_${case_name}/* .
+            # Get the date of this inflation restart file so you can remove it at the end
+            export inf_prev_date_files=`ls -rt1 *dart.rh.cam_*inf_mean*`
+            export inf_prev_date_files=`echo $inf_prev_date_files[1] | cut -d'.' -f5` 
+            echo " Old inflation date in hide = $inf_prev_date_files "
+      fi
+   else
+      echo " No HIDE dir found."
+      c=2
+   fi
+fi
+
+
+
+# Move the hidden restart export back into $rundir so that it is processed properly.
+
+
+# ==============================================================================
+# Block 2: Populate a run-time directory with the input needed to run DART.
+# ==============================================================================
+
+echo "`date` -- BEGIN COPY BLOCK"
+
+# Put a pared down copy (no comments) of input.nml in this assimilate_cam directory.
+# The contents may change from one cycle to the next, so always start from
+# the known configuration in the CASEROOT directory.
+
+cd ${TMPROOT}
+if [  -e   input.nml.original ]; then
+   sed -e "/#/d;/^\!/d;/^[ ]*\!/d" \
+       -e '1,1i\WARNING: Changes to this file will be ignored. \n Edit input.nml.original instead.\n\n\n' \
+       input.nml.original >! input.nml  || exit 10
+else
+   echo "ERROR ... DART required file ${TMPROOT}/input.nml not found ... ERROR"
+   echo "ERROR ... DART required file ${TMPROOT}/input.nml not found ... ERROR"
+   exit 11
+fi
+
+echo "`date` -- END COPY BLOCK"
+
+# ==============================================================================
+# Block 3: Identify requested output stages, warn about redundant output.
+# ==============================================================================
+
+cd ${TMPROOT}
+export MYSTRING=`grep stages_to_write input.nml | tail -1`
+export MYSTRING=`echo $MYSTRING | sed -e "s#[=,'\.]# #g"`
+# export MYSTRING=`echo $MYSTRING | sed "s/stages_to_write//g"`
+export STAGE_input=FALSE
+export STAGE_forecast=FALSE
+export STAGE_preassim=FALSE
+export STAGE_postassim=FALSE
+export STAGE_analysis=FALSE
+export STAGE_output=FALSE
+
+
+# Assemble lists of stages to write out, which are not the 'output' stage.
+
+export stages_except_output="{"
+stage=2
+for var in ${MYSTRING};do
+   if [ $var == 'input' ]; then
+      export STAGE_input=TRUE
+      if [ $stage > 2 ];then
+       export stages_except_output="${stages_except_output},"
+       export stages_except_output="${stages_except_output}input"
+      fi
+   fi
+   if [ $var == 'forecast' ]; then
+      export STAGE_forecast=TRUE
+      if [ $stage > 2 ];then
+        export stages_except_output="${stages_except_output},"
+        export stages_except_output="${stages_except_output}forecast"
+      fi
+   fi
+   if [ $var == 'preassim' ]; then
+      export STAGE_preassim=TRUE
+      if [ $stage > 2 ];then
+        export stages_except_output="${stages_except_output},"
+        export stages_except_output="${stages_except_output}preassim"
+      fi
+   fi
+   if [ $var == 'postassim' ]; then
+      export STAGE_postassim=TRUE
+      if [ $stage > 2 ];then
+        export stages_except_output="${stages_except_output},"
+        export stages_except_output="${stages_except_output}postassim"
+      fi
+   fi
+   if [ $var == 'analysis' ]; then
+      export STAGE_analysis=TRUE
+      if [ $stage > 2 ];then
+        export stages_except_output="${stages_except_output},"
+        export stages_except_output="${stages_except_output}analysis"
+      fi
+   fi
+   if [ $stage == 4 ]; then
+      export stages_all="${stages_except_output}"
+      if [ ${var} == 'output' ]; then
+         export STAGE_output=TRUE
+         export stages_all="${stages_all},output"
+      fi
+   fi
+   stage=$(echo "${stage}+1" | bc)
+done
+
+# Add the closing }
+export stages_all="${stages_all}"
+export stages_except_output="${stages_except_output}"
+
+# Checking
+echo "stages_except_output = $stages_except_output"
+echo "stages_all = $stages_all"
+if [ $STAGE_output != TRUE ]; then
+   echo "ERROR: assimilate.csh requires that input.nml:filter_nml:stages_to_write includes stage 'output'"
+   exit 40
+fi
+
+
+# ==============================================================================
+# Block 5: Get observation sequence file ... or die right away.
+# The observation file names have a time that matches the stopping time of CAM.
+#
+# Make sure the file name structure matches the obs you will be using.
+# PERFECT model obs output appends .perfect to the filenames
+# ==============================================================================
+
+export its=1
+while [ $its -le $NTSLOTS ];do
+   cd ${TMPROOT}/TS$its
+   export DIROBS=`printf %%04d/%%02d/%%04d%%02d%%02d%%02d ${ATM_YEAR} ${ATM_MONTH} ${ATM_YEAR} ${ATM_MONTH} ${ATM_DAY} ${ATM_HOUR}`
+   rm -f ${TMPROOT}/TS$its/bufr.*.db
+   rm -f ${TMPROOT}/TS$its/catalog.db
+   export OBS_FILE=${BASEOBSDIR}/${DIROBS}/TS$its
+   ln -s ${OBS_FILE}/bufr.*.db .
+   ln -s ${OBS_FILE}/catalog.db .
+
+   its=$(echo "${its}+1" | bc)
+done
+
+
+# ==============================================================================
+# Block 6: DART INFLATION
+# This block is only relevant if 'inflation' is turned on AND
+# inflation values change through time:
+# filter_nml
+#    inf_flavor(:)  = 2  (or 3 (or 4 for posterior))
+#    inf_initial_from_restart    = .TRUE.
+#    inf_sd_initial_from_restart = .TRUE.
+#
+# This block stages the files that contain the inflation values.
+# The inflation files are essentially duplicates of the DART model state,
+# which have names in the CESM style, something like
+#    ${case}.dart.rh.${scomp}_output_priorinf_{mean,sd}.YYYY-MM-DD-SSSSS.nc
+# The strategy is to use the latest such files in ${RUNDIR}.
+# If those don't exist at the start of an assimilation,
+# this block creates them with 'fill_inflation_restart'.
+# If they don't exist AFTER the first cycle, the script will exit
+# because they should have been available from a previous cycle.
+# The script does NOT check the model date of the files for consistency
+# with the current forecast time, so check that the inflation mean
+# files are evolving as expected.
+#
+# CESM's st_archive should archive the inflation restart files
+# like any other "restart history" (.rh.) files; copying the latest files
+# to the archive directory, and moving all of the older ones.
+# ==============================================================================
+
+# If we need to run fill_inflation_restart, CAM:static_init_model()
+# always needs a caminput.nc and a cam_phis.nc for geometry information, etc.
+
+echo "`date` -- BEGIN PREPROCESSING"
+
+cd ${TMPROOT}
+
+date
+echo "BEGIN PYTHON PROCESS "
+whereis python
+export inst=1
+while [ $inst -le $nens ];do
+   export inst_string=$(printf _%%04d $inst)
+   export ftoass="$CASESRUNROOT/${case_name}$inst_string/run/${case_name}$inst_string.cam.i.${ATM_DATE_EXT}.nc"
+
+   python ${TMPROOT}/rep_input.py ${ftoass}
+
+   inst=$(echo "${inst}+1" | bc)
+done
+date
+echo "END PYTHON PROCESS "
+
+
+
+# export MYSTRING=$(grep cam_template_filename input.nml )
+# # export MYSTRING=`echo $MYSTRING | sed -e "s#[=,']# #g"`
+# export MYSTRING=$(echo ${MYSTRING} | cut -d '=' -f2 | tr -d '[:space:]' | sed "s/\'//g")
+MYSTRING='caminput.nc'
+export CAMINPUT=$MYSTRING
+${REMOVE} -f ${CAMINPUT}
+#${LINK} ${CASE}.cam_0001.i.${ATM_DATE_EXT}.nc ${CAMINPUT} || exit 90
+${LINK} $CASESRUNROOT/${case_name}_0001/run/${case_name}_0001.cam.i.${ATM_DATE_EXT}.nc ${CAMINPUT} || exit 90
+
+export its=1
+while [ $its -le $NTSLOTS ];do
+   ${LINK} -f $CASESRUNROOT/${case_name}_0001/run/${case_name}_0001.cam.i.${ATM_DATE_EXT}.nc TS${its}/${CAMINPUT} || exit 90
+   its=$(echo "${its}+1" | bc)
+done
+
+
+# All of the .h0. files contain the same PHIS field, so we can link to any of them.
+
+#export hists = `${LIST} ${CASE}.cam_0001.h0.*.nc`
+export hists=`${LIST} $CASESRUNROOT/${case_name}_0001/run/${case_name}_0001.cam.h0.* | head -1`
+export MYSTRING=`grep cam_phis_filename input.nml`
+export MYSTRING=`echo $MYSTRING | sed -e "s#[=,']# #g"`
+# export CAM_PHIS=$(echo "$MYSTRING" |  cut -d ' ' -f2)
+export CAM_PHIS='cam_phis.nc'
+${REMOVE} -f ${CAM_PHIS}
+${LINK} $hists ${CAM_PHIS} || exit 100
+echo " Extract information phis from $hists"
+
+export its=1
+while [ $its -le $NTSLOTS ];do
+   ${COPY} $hists TS${its}/${CAM_PHIS} || exit 90
+
+   its=$(echo "${its}+1" | bc)
+done
+
+
+# Now, actually check the inflation exporttings
+
+export  MYSTRING=`grep inf_flavor input.nml`
+export  MYSTRING=`echo $MYSTRING | sed -e "s#[=,'\.]# #g"`
+export  PRIOR_INF=$(echo $MYSTRING | awk '{print $2}')
+export  POSTE_INF=$(echo $MYSTRING | awk '{print $3}')
+
+export  MYSTRING=`grep inf_initial_from_restart input.nml`
+export  MYSTRING=`echo $MYSTRING | sed -e "s#[=,'\.]# #g"`
+
+# If no inflation is requested, the inflation restart source is ignored
+echo " PRIOR_INF= $PRIOR_INF"
+echo " POSTE_INF= $POSTE_INF"
+
+if [ $PRIOR_INF -eq 0 ]; then
+   export  PRIOR_INFLATION_FROM_RESTART=ignored
+   export  USING_PRIOR_INFLATION=false
+else
+   export  PRIOR_INFLATION_FROM_RESTART=`echo $MYSTRING | awk '{print $2}' | tr '[:upper:]' '[:lower:]'`
+   export  USING_PRIOR_INFLATION=true
+fi
+
+if [ $POSTE_INF -eq 0 ]; then
+   export  POSTE_INFLATION_FROM_RESTART=ignored
+   export  USING_POSTE_INFLATION=false
+else
+   export  POSTE_INFLATION_FROM_RESTART=`echo $MYSTRING | awk '{print $3}' | tr '[:upper:]' '[:lower:]'`
+   export  USING_POSTE_INFLATION=true
+fi
+
+if [ $USING_PRIOR_INFLATION == false ]; then
+   export stages_requested=0
+   if [ $STAGE_input    == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $STAGE_forecast == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $STAGE_preassim == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $stages_requested -gt 1 ]; then
+      echo " "
+      echo "WARNING ! ! Redundant output is requested at multiple stages before assimilation."
+      echo "            Stages 'input' and 'forecast' are always redundant."
+      echo "            Prior inflation is OFF, so stage 'preassim' is also redundant. "
+      echo "            We recommend requesting just 'preassim'."
+      echo " "
+   fi
+fi
+
+if [ $USING_POSTE_INFLATION == false ]; then
+   export stages_requested=0
+   if [ $STAGE_postassim == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $STAGE_analysis  == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $STAGE_output    == TRUE ];then stages_requested=$(echo "${stages_requested}+1" | bc);fi
+   if [ $stages_requested -gt 1 ]; then
+      echo " "
+      echo "WARNING ! ! Redundant output is requested at multiple stages after assimilation."
+      echo "            Stages 'output' and 'analysis' are always redundant."
+      echo "            Posterior inflation is OFF, so stage 'postassim' is also redundant. "
+      echo "            We recommend requesting just 'output'."
+      echo " "
+   fi
+fi
+
+# IFF we want PRIOR inflation:
+set +e
+if [ $USING_PRIOR_INFLATION == true ]; then
+   if [ $PRIOR_INFLATION_FROM_RESTART == false ]; then
+
+      echo "inf_flavor(1) = $PRIOR_INF, using namelist values."
+
+   else
+      # Look for the output from the previous assimilation (or fill_inflation_restart)
+      # If inflation files exists, use them as input for this assimilation
+      $(${LIST} -rt1 *.dart.rh.${scomp}_output_priorinf_mean* | tail -n 1 >! latestfile) 2>  /dev/null
+      $(${LIST} -rt1 *.dart.rh.${scomp}_output_priorinf_sd*   | tail -n 1 >> latestfile) 2> /dev/null
+      export nfiles=`cat latestfile | wc -l`
+
+      echo "nfiles = $nfiles "
+
+      if [ $nfiles -gt 0 ]; then
+
+         export latest_mean=`head -n 1 latestfile`
+         export latest_sd=`tail -n 1 latestfile`
+         
+         echo "latest_mean = $latest_mean"
+         echo "latest_sd = $latest_sd"
+         # Need to COPY instead of link because of short-term archiver and disk management.
+         ${COPY} $latest_mean input_priorinf_mean.nc
+         ${COPY} $latest_sd   input_priorinf_sd.nc
+
+         echo "add TS TREFHT LANDFRAC QVMR to the inflation files" 
+	 python ./rep_inflation.py
+          
+
+      elif [ $CONT_RUN == FALSE ]; then
+
+         # It's the first assimilation; try to find some inflation restart files
+         # or make them using fill_inflation_restart.
+         # Fill_inflation_restart needs caminput.nc and cam_phis.nc for static_model_init,
+         # so this staging is done in assimilate.csh (after a forecast) instead of stage_cesm_files.
+
+         if [ -x fill_inflation_restart ]; then
+
+            echo " CALLING  FILL INFLATION RESTART"
+            # ./fill_inflation_restart
+            # ${TMPROOT}/take_f.sh ${TMPROOT} "inflation"   
+            ${TMPROOT}/fill_inflation_restart >> inflog.txt
+     
+            echo " END  FILL INFLATION RESTART"
+ 
+            echo "add TS TREFHT LANDFRAC QVMR to the inflation files" 
+            python ./rep_inflation.py
+
+         else
+            echo "ERROR: Requested PRIOR inflation restart for the first cycle."
+            echo "       There are no existing inflation files available "
+            echo "       and ${EXEROOT}/fill_inflation_restart is missing."
+            echo "EXITING"
+            exit 112
+         fi
+
+      else
+         echo "ERROR: Requested PRIOR inflation restart, "
+         echo '       but files *.dart.rh.${scomp}_output_priorinf_* do not exist in the ${RUNDIR}.'
+         echo '       If you are changing from cam_no_assimilate.csh to assimilate.csh,'
+         echo '       you might be able to continue by changing CONTINUE_RUN = FALSE for this cycle,'
+         echo '       and restaging the initial ensemble.'
+         ${LIST} -l *inf*
+         echo "EXITING"
+         exit 115
+      fi
+   fi
+else
+   echo "Prior Inflation not requested for this assimilation."
+fi
+
+# POSTERIOR: We look for the 'newest' and use it - IFF we need it.
+
+if [ $USING_POSTE_INFLATION == true ]; then
+   if [ $POSTE_INFLATION_FROM_RESTART == false ]; then
+
+      # we are not using an existing inflation file.
+      echo "inf_flavor(2) = $POSTE_INF, using namelist values."
+
+   else
+      # Look for the output from the previous assimilation (or fill_inflation_restart).
+      # (The only stage after posterior inflation.)
+      $(${LIST} -rt1 *.dart.rh.${scomp}_output_postinf_mean* | tail -n 1 >! latestfile) 2>  /dev/null
+      $(${LIST} -rt1 *.dart.rh.${scomp}_output_postinf_sd*   | tail -n 1 >> latestfile) 2>  /dev/null
+      export nfiles = `cat latestfile | wc -l`
+
+      echo "nfiles =  $nfiles"
+
+      # If one exists, use it as input for this assimilation
+      if [ $nfiles -gt 0 ]; then
+
+         export latest_mean=`head -n 1 latestfile`
+         export latest_sd=`tail -n 1 latestfile`
+
+         echo "latest_mean=$latest_mean"
+         echo "latest_sd=$latest_sd"
+
+         ${LINK} $latest_mean input_postinf_mean.nc || exit 120
+         ${LINK} $latest_sd   input_postinf_sd.nc   || exit 121
+
+      elif [ $CONT_RUN == FALSE ]; then
+         # It's the first assimilation; try to find some inflation restart files
+         # or make them using fill_inflation_restart.
+         # Fill_inflation_restart needs caminput.nc and cam_phis.nc for static_model_init,
+         # so this staging is done in assimilate.csh (after a forecast) instead of stage_cesm_files.
+
+         if [ -x fill_inflation_restart ]; then
+            ./fill_inflation_restart
+            ${MOVE} prior_inflation_mean.nc input_postinf_mean.nc || exit 125
+            ${MOVE} prior_inflation_sd.nc   input_postinf_sd.nc   || exit 126
+         else
+            echo "ERROR: Requested POSTERIOR inflation restart for the first cycle."
+            echo "       There are no existing inflation files available "
+            echo "       and ${EXEROOT}/fill_inflation_restart is missing."
+            echo "EXITING"
+            exit 127
+         fi
+
+      else
+         echo "ERROR: Requested POSTERIOR inflation restart, "
+         echo '       but files *.dart.rh.${scomp}_output_postinf_* do not exist in the ${RUNDIR}.'
+         ${LIST} -l *inf*
+         echo "EXITING"
+         exit 128
+      fi
+   fi
+else
+   echo "Posterior Inflation not requested for this assimilation."
+fi
+
+cd ${TMPROOT}
+if [ $USING_PRIOR_INFLATION == true ]; then
+    export its=1
+    while [ $its -le $NTSLOTS ];do
+      #   ${COPY} ${TMPROOT}/prior_inflation_mean.nc ${TMPROOT}/TS$its/.
+      #   ${COPY} ${TMPROOT}/prior_inflation_sd.nc ${TMPROOT}/TS$its/.
+        ${COPY} ${TMPROOT}/input_priorinf_mean.nc   ${TMPROOT}/TS$its/.
+        ${COPY} ${TMPROOT}/input_priorinf_sd.nc   ${TMPROOT}/TS$its/.
+        its=$(echo "${its}+1" | bc)
+    done
+fi
+
+echo "`date` -- END PREPROCESSING"
+
+
+cd ${TMPROOT}
+export line=`grep input_state_file_list input.nml | sed -e "s#[=,'\.]# #g"`
+export line=$(echo ${line} | awk '{print $2}')
+export input_file_list_name=$line
+
+# If the file names in $output_state_file_list = names in $input_state_file_list,
+# # then the restart file contents will be overwritten with the states updated by DART.
+
+export line=`grep output_state_file_list input.nml | sed -e "s#[=,'\.]# #g"`
+# export line=$(echo ${line} | cut -d '=' -f2 | tr -d '[:space:]')
+export line=$(echo ${line} |  awk '{print $2}')
+export output_file_list_name=$line
+
+if [ $input_file_list_name != $output_file_list_name ];then
+   echo "ERROR: assimilate.csh requires that input_file_list = output_file_list"
+   echo "       You can probably find the data you want in stage 'forecast'."
+   echo "       If you truly require separate copies of CAM's initial files"
+   echo "       before and after the assimilation, see revision 12603, and note that"
+   echo "       it requires changing the linking to cam_initial_####.nc, below."
+   exit 130
+fi
+
+export inst=1
+while [ $its -le $NTSLOTS ];do
+   ${REMOVE} ./TS${its}/$input_file_list_name
+   its=$(echo "${its}+1" | bc)
+done
+
+while [ $inst -le $nens ]; do
+   export inst_string=$(printf _%%04d $inst)
+   export its=1
+   while [ $its -le $NTSLOTS ];do
+        export datets=`ls -l $CASESRUNROOT/${case_name}${inst_string}/run/*cam.i* | tail -n $its | head -n 1 | cut -d '.' -f4`
+        export ftoass="$CASESRUNROOT/${case_name}${inst_string}/run/${case_name}${inst_string}.cam.i.${datets}.nc"
+        echo "${ftoass}" >> ./TS${its}/$input_file_list_name
+
+    its=$(echo "${its}+1" | bc)
+   done
+
+  inst=$(echo "${inst}+1" | bc)
+done
+
+
+
+echo 'END PREPARATION PHASE 1: departures computation'
+# END OF PRE_DEPARTURE
+%include <includes/tail.h>

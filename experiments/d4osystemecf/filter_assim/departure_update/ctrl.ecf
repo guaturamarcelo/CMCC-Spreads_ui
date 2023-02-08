@@ -1,0 +1,178 @@
+%include <includes/head.h>
+
+donepath=$(echo %ECF_NAME% | sed 's/%TASK%//g')
+# status=$(ecflow_client --query variable ${donepath}:done)
+next="/%case_name%/filter_departure_cleaver_screening/departure"
+
+TRY=0
+ecflow_client --alter=change variable TRY ${TRY} /%SUITE%
+
+while [[ ${TRY} -le %MAXTRY% ]];do
+
+    ecflow_client --alter=change variable done 0 ${donepath}
+    ecflow_client --alter=change variable first_update null ${donepath}
+    ecflow_client --alter=change variable last_update null ${donepath}
+
+    # sleep 15
+    mode=$(echo "%sequential_assim%" | tr '[:lower:]' '[:upper:]')
+    problem=0
+
+    if [ ${mode} == TRUE ];then
+
+        ts_order="$(echo {1..13})"
+        
+        ecflow_client --alter=change variable ts_order "${ts_order}" ${donepath}
+        
+        for TS in ${ts_order};do
+
+            while [ $(ecflow_client --query state ${next}/dep_${TS}) != 'complete' ];do
+
+                ecflow_client --label=info "Waiting departure ${TS} task be finish to start to run the update_${TS}"
+            
+                sleep 5
+
+                if [ $(ecflow_client --query state ${next}/dep_${TS}) == 'aborted' ];then
+
+                    ecflow_client --label=info "Problem on departure ${TS}"
+                    exit 1
+                    
+                fi
+            done
+
+            ecflow_client --run=${donepath}/update_${TS}
+
+            while [ $(ecflow_client --query state ${donepath}/update_${TS}) != 'complete' ];do
+
+                ecflow_client --label=info "Running the update_${TS}"
+            
+                sleep 5
+
+                if [ $(ecflow_client --query state ${donepath}/update_${TS}) == 'aborted' ];then
+
+                    ecflow_client --label=info "Problem on departure ${TS}"
+                    sleep 5
+                    problem=1
+                    break
+
+                fi
+            done
+
+            if [ ${problem} -eq 1 ];then
+                break
+            else
+                ecflow_client --label=info "Finished the update_${TS}"
+            fi
+
+        done
+
+    else
+        # Alterar para rodar conforme dep finaliza
+        ecflow_client --label=info "Starting..."
+
+        ctrl=''
+        while [ $(echo "${ctrl}" | wc -w) -lt 13 ];do
+
+            # Criar meio para receber parte dos numeros, executar e atualizar para só rodar para novos casos
+            ts_order=$(ecflow_client --query variable ${next}:end_order)
+            ts_order=$(echo ${ts_order} | sed 's/null//g')
+
+            # if [ $(echo "${ctrl}" | wc -w) -gt 0 ];then
+            #     ts_order=$(echo "${ts_order}" | sed "s/${ctrl}//g")
+            # fi
+
+            if [  $(echo "${ts_order}" | wc -w) -gt 0 ];then
+
+                # if [[ ! ${ts_order[*]} =~ "${ctrl}" ]];then
+
+                    # ctrl="${ts_order} ctrl"
+                for TS in ${ts_order};do
+
+                    if [[ ! ${ctrl[*]} =~ ${TS} ]];then
+
+                        ecflow_client --run=${donepath}/update_${TS}
+
+                        while [ $(ecflow_client --query state ${donepath}/update_${TS}) != 'complete' ];do
+
+                            ecflow_client --label=info "Running the update_${TS}"
+                        
+                            sleep 5
+
+                            if [ $(ecflow_client --query state ${donepath}/update_${TS}) == 'aborted' ];then
+
+                                ecflow_client --label=info "Problem on departure ${TS}"
+                                sleep 5
+                                problem=1
+                                break
+                
+                            fi
+                        
+                        done
+
+                        ctrl="${ctrl} ${TS}"
+                        ecflow_client --alter=change variable ts_order "${ctrl}" ${donepath}
+                        
+                        if [ ${problem} -eq 1 ];then
+                            break
+                        else
+                            ecflow_client --label=info "Finished the update_${TS}"
+                        fi
+
+                    fi
+                done
+                
+                if [ ${problem} -eq 1 ];then
+                    break               
+                fi
+
+            else
+
+                ecflow_client --label=info "Waiting another departure be finished to continue..."
+                sleep 10
+
+            fi
+
+        done
+
+        ## WE NEED TO CONFIRM HERE IF ALL UPDATE FINISH OK, 
+        ## IF NOT WE NEED INCREASE 1 ON TRY AND RE-RUN THE DEPARTURE AND UPDATE
+        # for TS in $(echo {1..13});do
+
+        #     status=$(ecflow_client --query state ${donepath}/update_${TS})
+
+        #     if [ ${status} != 'complete' ];then
+
+        #         problem=1
+
+        #     fi
+
+        # done
+
+    fi
+    
+
+    if [ ${problem} -eq 1 ];then
+
+        TRY=$(echo "${TRY}+1" | bc)
+        ecflow_client --alter=change variable TRY ${TRY} /%SUITE%
+
+    else
+
+        break
+
+    fi
+
+done
+
+
+if [ ${problem} -eq 1 ];then
+
+    ecflow_client --label=info "Finished with errors!! $(date)"
+
+    exit 1
+
+else
+
+    ecflow_client --label=info "Finished $(date)"
+
+fi
+%include <includes/tail.h>

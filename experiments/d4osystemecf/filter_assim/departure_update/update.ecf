@@ -1,0 +1,157 @@
+%include <includes/head.h>
+
+
+# ==============================================================================
+# Block 7: Actually run the assimilation.
+#
+# DART namelist settings required:
+# &filter_nml
+#    adv_ens_command         = "no_CESM_advance_script",
+#    obs_sequence_in_name    = 'obs_seq.out'
+#    obs_sequence_out_name   = 'obs_seq.final'
+#    single_file_in          = .false.,
+#    single_file_out         = .false.,
+#    stages_to_write         = stages you want + ,'output'
+#    input_state_file_list   = 'cam_init_files'
+#    output_state_file_list  = 'cam_init_files',
+#
+# WARNING: the default mode of this script assumes that
+#          input_state_file_list = output_state_file_list, so that
+#          the CAM initial files used as input to filter will be overwritten.
+#          The input model states can be preserved by requesting that stage
+#          'forecast' be output.
+#
+# ==============================================================================
+
+# In the default mode of CAM assimilations, filter gets the model state(s)
+# from CAM initial files.  This section puts the names of those files into a text file.
+# The name of the text file is provided to filter in filter_nml:input_state_file_list.
+
+# NOTE:
+# If the files in input_state_file_list are CESM initial files (all vars and
+# all meta data), then they will end up with a different structure than
+# the non-'output', stage output written by filter ('preassim', 'postassim', etc.).
+# This can be prevented (at the cost of more disk space) by copying
+# the CESM format initial files into the names filter will use for preassim, etc.:
+#    > cp $case.cam_0001.i.$date.nc  preassim_member_0001.nc.
+#    > ... for all members
+# Filter will replace the state variables in preassim_member* with updated versions,
+# but leave the other variables and all metadata unchanged.
+
+# If filter will create an ensemble from a single state,
+#    filter_nml: perturb_from_single_instance = .true.
+# it's fine (and convenient) to put the whole list of files in input_state_file_list.
+# Filter will just use the first as the base to perturb.
+
+
+
+ecflow_client --label=info "Running... $(date)"
+
+
+
+export SCRIPTDIR="%ECF_HOME%/source/%case_name%/main_scripts"
+
+cd ${SCRIPTDIR}
+
+export nens=%nens%
+donepath=$(echo %ECF_NAME% | sed 's/%TASK%//g')
+
+# Number of forecast members
+FENS=%FENS%
+
+# Activate forecast at 00Z and 12Z
+FORECAST=%FORECAST%
+
+export CESMEXP='cesm-exp'
+export case_name=%case_name%
+export CLONESROOT="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
+export NTSLOTS=13
+export CASEROOT0001="$CLONESROOT/${case_name}_0001"
+export TMPROOT="/work/csp/${USER}/CESM2/TMP"$(echo "${case_name}" | tr [:lower:] [:upper:])
+
+
+
+export nens=%nens%
+donepath=$(echo %ECF_NAME% | sed 's/%TASK%//g')
+its=$(echo %TASK% | sed 's/update_//g')
+
+TRY=$(ecflow_client --query variable /%SUITE%:TRY)
+if [ ${its} -eq 10 ];then
+
+    if [ ${TRY} -eq 0 ];then
+
+        exit 1
+    fi
+
+
+fi
+
+source /etc/profile.d/modules.sh
+
+## D4O
+module purge
+module load cmake/3.17.3
+module load intel20.1/20.1.217
+module load intel20.1/szip/2.1.1
+module load curl/7.70.0
+module load impi20.1/19.7.217
+#module load anaconda/3.9 # gives access to python 3 PAY ATTENTION IT CAN INTERFERE WITH THE PYTHON SCRIPT USED!
+module load dbi/1.643
+module load sqlite/3.38.0
+module load dbd-sqlite/1.70
+module load anaconda/2.7
+
+
+
+# TMPROOT=$1
+# nits=13
+# d4odep=$4
+# actual_assi_dir=$5 #CALL 2 DIFFERENT SCRIPTS????????
+
+date
+echo "BEGIN FILTER PROCESSES "
+source /data/csp/${USER}/d4o/install/INTEL/source.me
+
+ 
+# chose the working mode for filter
+
+#  for i in $(seq $nits)
+#    do 
+cd ${TMPROOT}/TS${its}
+if [ ! -f run_filter.bash ]; then cp ${TMPROOT}/run_filter.bash . ;fi
+rm -f log.txt
+chmod 755 run_filter.bash
+
+export workmode='no'
+# sleep 5
+# bsub < run_filter.bash  > log.txt
+
+# sleep $(echo "${its}*3" | bc)
+
+status=$(ecflow_client --query variable ${donepath}:done)
+
+if [ ${status} -eq 0 ];then
+    # ecflow_client --meter /assimilation_2/filter_departure_cleaver_screening/departure done 1
+
+    ecflow_client --alter=change variable done 1 ${donepath}
+
+    ecflow_client --alter=change variable first_update %TASK% ${donepath}
+
+else 
+    ecflow_client --alter=change variable done  $(echo "${status}+1" | bc) ${donepath}
+fi
+
+status=$(echo "${status}+1" | bc)
+if [ ${status} -eq 13 ];then
+
+    ecflow_client --alter=change variable last_update %TASK% ${donepath}
+
+    # change the inflation parameter inside of input.nml
+
+fi
+
+
+ecflow_client --label=info "Done: $(date)"
+
+
+%include <includes/tail.h>
