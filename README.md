@@ -38,7 +38,7 @@ Giovanni Conti (giovanni.conti@cmcc.it)
  
 ## Contributions
 
-Luis de Gonçalves (luis.goncalves@cmcc.it)
+Luis de Gonçalves (luis.goncalves@cmcc.it)  
 Carla Cardinali (carla.cardinali@cmcc.it)
 
 ## Version History
