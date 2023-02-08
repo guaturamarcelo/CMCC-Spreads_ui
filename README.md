@@ -9,11 +9,12 @@ The CMCC suite was developed to provide a common tool to create and manage new e
 
 * ecFlow 5.* or later
 * korn shell (KSH)
+* Anaconda
 
-<!-- ### Installing
+### Installing
 
 * C
-* Any modifications needed to be made to files/folders -->
+* Any modifications needed to be made to files/folders
 
 ### Executing program
 
