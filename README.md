@@ -1,19 +1,14 @@
 # CMCC Suite
-
-A ecFlow suite develop to create new experiments using CESM-DART to assimilation products. 
-
 ## Description
 
-This suite is developed to help anyone who wants to create experiments using CESM-DART .
-
-
+The CMCC suite was developed to provide a common tool to create and manage new experiments using CESM-DART in assimilation products using ecFlow system.
 
 ## Getting Started
 
 ### Dependencies:
 
 * ecFlow 5.* or later
-* kornshell (KSH)
+* korn shell (KSH)
 
 <!-- ### Installing
 
