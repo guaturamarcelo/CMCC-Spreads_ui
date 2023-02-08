@@ -10,7 +10,7 @@ The CMCC suite was developed to provide a common tool to create and manage new e
 * ecFlow 5.* or later
 * korn shell (KSH)
 * Anaconda
-
+* git
 ### Installing
 
 
@@ -20,16 +20,22 @@ conda create -n ecflow
 conda activate ecflow
 conda install -c conda-forge ecflow
 ```
-### Executing program
 
+* Clone 
 ```
 git clone https://github.com/guaturamarcelo/CMCC-Suite
 ```
 
 * Applying the path modifications before start the server
 ```
-cmcc_suite --clone --template --name <new_suite>
+chmod +x 
 ```
+
+### Executing program
+
+
+
+
 
 ## Help
 
