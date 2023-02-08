@@ -28,9 +28,12 @@ git clone https://github.com/guaturamarcelo/CMCC-Suite
 
 * Applying the path modifications before start the server
 ```
-chmod +x 
-```
+cd CMCC-Suite
+./run.ksh
 
+```
+**Warning**
+At the first time 
 ### Executing program
 
 
