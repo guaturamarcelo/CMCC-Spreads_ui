@@ -10,13 +10,13 @@ then
 
     while true
     do
-    case $opt in
-        1|2|3|4)
-            break ;;
-        *)
-            printf "Plase select between: [1|2|3|4] : "
-            read -r opt ;;
-    esac
+        case $opt in
+            1|2|3|4)
+                break ;;
+            *)
+                printf "Plase select between: [1|2|3|4] : "
+                read -r opt ;;
+        esac
     done
 
 else
