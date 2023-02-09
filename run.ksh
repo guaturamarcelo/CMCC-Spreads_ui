@@ -14,7 +14,7 @@ then
     while true
     do
         case $opt in
-            1|2|3|4)
+            1|2|3|4|5|6)
                 break ;;
             *)
                 printf "Plase select between: [1|2|3|4] : "
