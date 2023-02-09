@@ -35,6 +35,11 @@ USER='mg20022' # gc02720
 # not appears in the case.template.original)
 export clonesroot="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
 
+# CESM2 Directory
+mkdir -p ${ECF_HOME}/source/CESM2/case_template
+rsync -avzh /work/csp/mg20022/ecflow/source/CESM2/case_template ${ECF_HOME}/source/CESM2/case_template
+
+
 # Number of clones
 nens=%nens%
 
