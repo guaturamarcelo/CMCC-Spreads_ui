@@ -1,4 +1,4 @@
-# CMCC Suite
+# CMCC Spreads UI
 ## Description
 
 The CMCC suite was developed to provide a common tool to create and manage new experiments using CESM-DART in assimilation products using ecFlow system.
@@ -33,7 +33,7 @@ cd CMCC-Suite
 
 ```
 > **Warning** 
-Option 1 is only necessary at the first time. 
+Option 1 is only necessary at the first time..
 ### Executing program
 
 
