@@ -4,8 +4,9 @@ echo -e "\n1) Replace path "
 echo "2) List servers running"
 echo "3) Starting Server"
 echo "4) Stop Server"
-echo "5) List experiments available"
-echo -e "6) Exit\n"
+echo "5) Load spreads_ui"
+echo "6) List experiments available"
+echo -e "7) Exit\n"
 
 if [[ $@ -eq "" ]];
 then
@@ -46,13 +47,16 @@ case ${opt} in
 
     4)
         ./eclogs/stop.ksh ;;
-    5)
+
+    5)  ecflow_client --load=spreads_ui.def
+        ecflow_client --begin=spreads_ui ;;
+    6)
         ls experiments/*.def | sed 's/experiments\///g' | sed 's/.def//g'
 
         exit ;;
     
 
-    6)
+    7)
 
         echo "Goodbye ${USER}."
         exit ;;
