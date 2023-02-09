@@ -1,7 +1,7 @@
 # CMCC Spreads UI
 ## Description
 
-The CMCC Spreads UI was developed to provide a common tool to create and manage new experiments using CESM-DART in assimilation products using ecFlow system.
+The CMCC Spreads UI was developed to provide a common tool to create and manage experiments using CESM-DART in data assimilation products using ecFlow system.
 
 ## Getting Started
 
@@ -23,16 +23,16 @@ conda install -c conda-forge ecflow
 
 * Clone 
 ```
-git clone https://github.com/guaturamarcelo/CMCC-Suite
+git clone https://github.com/guaturamarcelo/CMCC-Spreads_ui
 ```
 
 * Applying the path modifications before start the server
 ```
-cd CMCC-Suite
+cd CMCC-Spreads_ui
 ./run.ksh 1
 
 ```
-> **Warning** 
+> **Warning**:
 Option 1 is only necessary at the first time..
 ### Executing program
 
