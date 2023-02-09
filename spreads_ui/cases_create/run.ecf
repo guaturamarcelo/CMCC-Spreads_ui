@@ -37,8 +37,12 @@ export clonesroot="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
 
 # CESM2 Directory
 mkdir -p ${ECF_HOME}/source/CESM2/case_template
-rsync -avzh /work/csp/mg20022/ecflow/source/CESM2/case_template ${ECF_HOME}/source/CESM2/case_template
+cd ${ECF_HOME}/source/CESM2/case_template
+set +e
+rsync -azh /work/csp/mg20022/ecflow/source/CESM2/case_template/ .
+set -e
 
+cd ${ECF_HOME}
 
 # Number of clones
 nens=%nens%
