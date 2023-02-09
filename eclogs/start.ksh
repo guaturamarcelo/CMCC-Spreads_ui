@@ -10,10 +10,11 @@ export ECF_SCRIPT=${ECF_HOME}
 
 PID=$(ps -ef | grep ecflow_server | grep "port=${ECF_PORT}")
 if [ ${#PID} -eq 0 ];then
+
     ecflow_server --port=${ECF_PORT} &
     echo -e "\n Server started with successful on port ${ECF_PORT}"
 
-    echo -e "\n Export this enveriment before use ecflow_cliente:"
+    echo -e "\n Export this enveriment before use ecflow_client:"
     echo -e "export ECF_PORT=${ECF_PORT}"
 
     ecflow_client --restart
