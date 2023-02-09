@@ -33,7 +33,7 @@ cd CMCC-Suite
 
 ```
 > **Warning** 
-> Option 1 is only necessary at the first time. 
+Option 1 is only necessary at the first time. 
 ### Executing program
 
 
