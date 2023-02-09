@@ -1,16 +1,16 @@
 # CMCC Spreads UI
 ## Description
 
-The CMCC suite was developed to provide a common tool to create and manage new experiments using CESM-DART in assimilation products using ecFlow system.
+The CMCC Spreads UI was developed to provide a common tool to create and manage new experiments using CESM-DART in assimilation products using ecFlow system.
 
 ## Getting Started
 
 ### Dependencies:
 
 * ecFlow 5.* or later
-* korn shell (KSH)
+* Korn Shell (KSH)
 * Anaconda
-* git
+* Git
 ### Installing
 
 
