@@ -6,7 +6,6 @@ export ECF_HOME=$(echo ${ECF_HOME} | sed 's/\/eclogs//g')
 echo -e "\nEnter with the ECF_PORT to start the server: "
 read -r ECF_PORT
 export ECF_PORT=${ECF_PORT}
-export ECF_PORT=${ECF_PORT}
 export ECF_SCRIPT=${ECF_HOME}
 
 PID=$(ps -ef | grep ecflow_server | grep "port=${ECF_PORT}")
@@ -16,6 +15,8 @@ if [ ${#PID} -eq 0 ];then
 
     echo -e "\n Export this enveriment before use ecflow_cliente:"
     echo -e "export ECF_PORT=${ECF_PORT}"
+
+    ecflow_client --restart
     # ecflow_client --delete yes /spreads_ui
     # ecflow_client --load=spreads_ui.def force
     # ecflow_client --begin=spreads_uis

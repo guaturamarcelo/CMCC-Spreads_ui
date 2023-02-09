@@ -2,8 +2,10 @@
 
 echo -e "\n1) Replace path "
 echo "2) List servers running"
-echo "3) List experiments available"
-echo -e "4) Exit\n"
+echo "3) Starting Server"
+echo "4) Stop Server"
+echo "5) List experiments available"
+echo -e "6) Exit\n"
 
 if [[ $@ -eq "" ]];
 then
@@ -40,12 +42,17 @@ case ${opt} in
 
 
     3)
+        ./eclogs/start.ksh ;;
+
+    4)
+        ./eclogs/stop.ksh ;;
+    5)
         ls experiments/*.def | sed 's/experiments\///g' | sed 's/.def//g'
 
         exit ;;
     
 
-    4)
+    6)
 
         echo "Goodbye ${USER}."
         exit ;;
