@@ -52,7 +52,7 @@ Giovanni Conti (giovanni.conti@cmcc.it)
 ## Contributions
 Carla Cardinali (carla.cardinali@cmcc.it)  
 Luis de Gonçalves (luis.goncalves@cmcc.it)  
-Swapan Mallick(swapan.mallick@cmcc.it)  
+Swapan Mallick (swapan.mallick@cmcc.it)  
 ## Version History
 
 * 0.1
