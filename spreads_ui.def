@@ -2,51 +2,38 @@ suite spreads_ui
 #/data/csp/mg20022/d4o/install/INTEL/source.me
    defstatus suspended #queued
 
-   edit ECF_HOME "/work/csp/mg20022/github/CMCC-Suite" 
+   edit ECF_HOME "/work/csp/mg20022/github/CMCC-Spreads_ui" 
    edit ECF_HOST "zeus" 
-   edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Suite/includes"
-   edit ECF_CLONE "/work/csp/mg20022/ecflow"
+   edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Spreads_ui/includes"
+   edit ECF_CLONE "/work/csp/mg20022/github/CMCC-Spreads_ui"
    edit case_name d4osystemecf
    edit MODE operation # reanalysis
    edit observation_operational FALSE
    edit nens 3
    edit sequential_assim TRUE
-   edit MAXTRY 10
+   edit MAXTRY 5
    edit baseobsdir /users_home/csp/sm09722/BUFR_D4O   
 
    family cases_create
-
-      #event test new
       task run
-
    endfamily
 
    family assimilation_experiment
       defstatus suspended
-
-      repeat string HOUR 00 06 12 18
+#      repeat string HOUR 00 06 12 18
       edit NCYCLES 1
       edit CONT_RUN FALSE
       edit ACTIVE_ASSI TRUE
       edit FORECAST FALSE
       edit FENS 2
       edit CLEANA TRUE
-      # time 00:00
-      # time 06:00
-      # time 12:00
-      # time 18:00 
 
       family bufr_to_d4o
-
          task blind_screening
       endfamily
 
-
       task create_template
-
          trigger bufr_to_d4o/blind_screening==complete
-
-
       endfamily
 
       # task cleaver_screening

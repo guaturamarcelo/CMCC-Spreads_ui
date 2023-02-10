@@ -2,11 +2,10 @@ suite template
 
     # defstatus suspended #queued
 
-    edit ECF_HOME "/work/csp/mg20022/ecflow/" 
+    edit ECF_HOME "/work/csp/mg20022/github/CMCC-Spreads_ui" 
     edit ECF_HOST "zeus" 
-    edit ECF_INCLUDE "/work/csp/mg20022/ecflow/includes"
+    edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Spreads_ui/includes"
 
-    # repeat string HOUR 00 06 12 18
     edit NCYCLES 1
     edit CONT_RUN FALSE
     edit ACTIVE_ASSI TRUE
@@ -23,24 +22,18 @@ suite template
     edit nens 3
     edit sequential_assim TRUE
     edit baseobsdir /users_home/csp/sm09722/BUFR_D4O
-    # time 00:00
-    # time 06:00
-    # time 12:00
-    # time 18:00 
+
 
     family background
 
         defstatus suspended
-
         task pre
 
         family run
-
             trigger pre==complete
             task mem_1
             task mem_2
             task mem_3
-
         endfamily
     endfamily
 
@@ -51,23 +44,17 @@ suite template
         trigger background==complete
 
         task pre_departure
-
     endfamily
     
     family filter_departure_cleaver_screening
         defstatus queued
-
         family departure
-        
-
             edit first_departure null
             edit last_departure null
             edit end_order null
             trigger ../prepare_assimilation==complete
 
-            # meter done 0 13 1
             edit done 0
-            # limit lim 5
             task dep_1
               label info ""
                 trigger dep_7==complete
@@ -106,9 +93,7 @@ suite template
             task dep_13
               label info ""
               trigger dep_7==complete
-            
         endfamily
-        
     endfamily   
 
     family filter_assim
@@ -122,86 +107,62 @@ suite template
 
             task ctrl
               label info ""
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_1==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
               trigger ../../filter_departure_cleaver_screening/departure==active
-
             task update_1
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_1==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_2
-            label info ""
-            defstatus suspended
-            # trigger ../../filter_departure_cleaver_screening/departure/dep_2==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
+              label info ""
+              defstatus suspended
             task update_3
               label info ""
               defstatus suspended
-            # trigger ../../filter_departure_cleaver_screening/departure/dep_3==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_4
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_4==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_5
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_5==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_6
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_6==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_7
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_8
               label info ""
               defstatus suspended
-            # trigger ../../filter_departure_cleaver_screening/departure/dep_8==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_9
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_9==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_10
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_10==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_11
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_11==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_12
               label info ""
               defstatus suspended
-                # trigger ../../filter_departure_cleaver_screening/departure/dep_12==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
             task update_13
               label info ""
               defstatus suspended
-              # trigger ../../filter_departure_cleaver_screening/departure/dep_13==complete and ../../filter_departure_cleaver_screening/departure/dep_7==complete
-
         endfamily
     endfamily 
 
     family postprocess
         defstatus suspended
-
         # defstatus queued        
         trigger filter_assim==complete
-
-        task rename
-
-        # task run_stats
-        
+        task rename   
         task archive
           trigger rename==complete
-
         task clean
           trigger archive==complete
-
     endfamily
 
     family forecast
         defstatus suspended
-
       #  defstatus queued
         trigger filter_assim==complete
 
@@ -209,17 +170,11 @@ suite template
         task seasonal_forecast
         task archive
  #           trigger 9h_forecast==complete or seasonal_forecast==complete 
-
     endfamily
 
     family cancel
-
         defstatus queued
         task cancel
            trigger ../forecast==complete
-
     endfamily
-
-
-
 endsuite

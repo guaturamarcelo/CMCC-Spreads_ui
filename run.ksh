@@ -30,10 +30,10 @@ case ${opt} in
 
     1)
         echo -e "\nReplacing information to the new path...\n"    
-        old_path='/work/csp/mg20022/github/CMCC-Suite'
+        old_path='/work/csp/mg20022/github/CMCC-Spreads_ui'
         new_path=$(pwd)
         grep -RiIl ${old_path} | xargs sed -i "s@$old_path@$new_path@g" 
-        # grep -RiIl "/work/csp/mg20022/github/CMCC-Suite" | xargs sed -i "s@"/work/csp/mg20022/github/CMCC-Suite"@$old_path@g" 
+        # grep -RiIl "/work/csp/mg20022/github/CMCC-Spreads_ui" | xargs sed -i "s@"/work/csp/mg20022/github/CMCC-Spreads_ui"@$old_path@g" 
 
         echo -e "\nClone Spreads_ui finished.\n" ;;
     2)

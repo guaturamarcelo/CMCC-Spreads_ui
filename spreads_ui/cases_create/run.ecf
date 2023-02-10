@@ -202,15 +202,17 @@ echo -e "\n START EXPERIMENT CREATION \n"
 # Parameters check
 if [ ${nts} -eq 13 ];then
      tcentral=7
-  else
+else
      echo " Time slots division not supported yet "
      exit 222
 fi
 
-if [ ! -d "%ECF_HOME%/source/%case_name%/" ]; then
-#   cp -r --preserve "%ECF_HOME%/source/d4osystem" "%ECF_HOME%/source/%case_name%"
-  cp -r --preserve %ECF_CLONE%/source/d4osystem "%ECF_HOME%/source/%case_name%"
+if [ ! -d "%ECF_HOME%/source/d4osystem" ]; then
+  cp -r --preserve /work/csp/mg20022/ecflow/source/d4osystem "%ECF_HOME%/source/d4osystem"
+fi
 
+if [ ! -d "%ECF_HOME%/source/%case_name%/" ]; then
+  cp -r --preserve %ECF_CLONE%/source/d4osystem "%ECF_HOME%/source/%case_name%"
 fi
 
 cd "%ECF_HOME%/source/%case_name%/main_scripts"
@@ -239,19 +241,13 @@ if [ -d ${dirff} ]; then
    ${REMOVE} -fr %ECF_HOME%/source/CESM2/${case_name}_f_*
 fi
 
-
-
 # set the obs dir
 ${COPY} cases_assimilate_template.csh cases_assimilate.csh
 sed -i "s@TEMPLATE_OBS_EXP@${baseobsdir}@g" cases_assimilate.csh
 
-
-
-
 containerdir=`echo ${clonesroot} | cut -d'/' -f6`
 ${COPY} ../case_archive/${script_name_original} ../case_archive/${script_name}
 sed -i "s/TEMPLATE_DIR_EXP/${containerdir}/g" ../case_archive/${script_name}
-
 
 #===========================================================
 #
