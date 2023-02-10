@@ -1,17 +1,14 @@
 %include <includes/head.h>
 
 
-cp  %ECF_CLONE%/d4osystemecf.def %ECF_HOME%/%case_name%.def
-old_path=%ECF_CLONE%
+cp  %ECF_HOME%/experiments/template.def %ECF_HOME%/%case_name%.def
+old_path=/work/csp/mg20022/github/CMCC-Spreads_ui
 new_path=%ECF_HOME%
 sed -i "s@$old_path@$new_path@g" %ECF_HOME%/%case_name%.def
-sed -i "s@d4osystemecf@%case_name%@g"  %ECF_HOME%/%case_name%.def
+sed -i "s@template@%case_name%@g"  %ECF_HOME%/%case_name%.def
 
-rsync -azh --info=progress2 --exclude '*.job*' --human-readable ${old_path}/d4osystemecf/ ${new_path}/%case_name%
+rsync -azh --info=progress2 --exclude '*.job*' --human-readable ${old_path}/experiments/template/ %ECF_HOME%/%case_name%
 
 
-
-# for i in $(seq -f "%%04g" 1 %nens%);do
-#   echo $i
-# done
+cd 
 %include <includes/tail.h>
