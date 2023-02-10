@@ -1,4 +1,4 @@
-suite template
+suite d4osystemecf
 
     # defstatus suspended #queued
 
@@ -17,7 +17,7 @@ suite template
     edit check_assi 0
     edit TRY 0
 
-    edit case_name template
+    edit case_name d4osystemecf
     edit MODE operation # reanalysis
     edit observation_operational FALSE
     edit nens 3
