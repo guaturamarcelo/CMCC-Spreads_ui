@@ -2,10 +2,10 @@ suite spreads_ui
 #/data/csp/mg20022/d4o/install/INTEL/source.me
    defstatus suspended #queued
 
-   edit ECF_HOME "/work/csp/mg20022/github/CMCC-Suite" 
+   edit ECF_HOME "/work/csp/mg20022/github/CMCC-Spreads_ui" 
    edit ECF_HOST "zeus" 
-   edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Suite/includes"
-   edit ECF_CLONE /work/csp/mg20022/github/CMCC-Suite"
+   edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Spreads_ui/includes"
+   edit ECF_CLONE "/work/csp/mg20022/github/CMCC-Spreads_ui"
    edit case_name d4osystemecf
    edit MODE operation # reanalysis
    edit observation_operational FALSE
