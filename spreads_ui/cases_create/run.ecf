@@ -207,12 +207,12 @@ else
      exit 222
 fi
 
-if [ ! -d "%ECF_HOME%/source/d4osystem" ]; then
-  cp -r --preserve /work/csp/mg20022/ecflow/source/d4osystem "%ECF_HOME%/source/d4osystem"
+if [ ! -d "%ECF_HOME%/source/template" ]; then
+  cp -r --preserve /work/csp/mg20022/ecflow/source/template "%ECF_HOME%/source/template"
 fi
 
-if [ ! -d "%ECF_HOME%/source/%case_name%/" ]; then
-  cp -r --preserve %ECF_CLONE%/source/d4osystem "%ECF_HOME%/source/%case_name%"
+if [ ! -d "%ECF_HOME%/source/%case_name%" ]; then
+  cp -r --preserve %ECF_CLONE%/source/template "%ECF_HOME%/source/%case_name%"
 fi
 
 cd "%ECF_HOME%/source/%case_name%/main_scripts"
