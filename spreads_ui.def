@@ -10,6 +10,7 @@ suite spreads_ui
    edit MODE operation # reanalysis
    edit observation_operational FALSE
    edit nens 3
+   edit DEP 13
    edit sequential_assim TRUE
    edit MAXTRY 5
    edit baseobsdir /users_home/csp/sm09722/BUFR_D4O   
