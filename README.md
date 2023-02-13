@@ -20,7 +20,6 @@ conda create -n ecflow
 conda activate ecflow
 conda install -c conda-forge ecflow
 ```
-
 * Clone 
 ```
 git clone https://github.com/guaturamarcelo/CMCC-Spreads_ui
@@ -33,9 +32,20 @@ cd CMCC-Spreads_ui
 
 ```
 > **Warning**:
-Option 1 is only necessary at the first time.
+Option 1 is only necessary at the first time before load the suite spreads_ui
 
 After that process use the script run.ksh to manage the ecFlow server's and the new experiments.
+```
+./run.ksh
+```
+1) Replace path 
+2) List servers running
+3) Starting Server
+4) Stop Server
+5) Load spreads_ui
+6) List experiments available
+7) Exit
+
 
 ## Authors
 
