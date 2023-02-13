@@ -25,10 +25,8 @@ suite template
 
 
     family background
-
         defstatus suspended
         task pre
-
         family run
             trigger pre==complete
             task mem_1
@@ -39,10 +37,8 @@ suite template
 
 
     family prepare_assimilation
-
         defstatus queued
         trigger background==complete
-
         task pre_departure
     endfamily
     
@@ -169,7 +165,6 @@ suite template
         task 9h_forecast
         task seasonal_forecast
         task archive
- #           trigger 9h_forecast==complete or seasonal_forecast==complete 
     endfamily
 
     family cancel

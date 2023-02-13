@@ -1,14 +1,48 @@
 %include <includes/head.h>
 
-
 cp  %ECF_HOME%/experiments/template.def %ECF_HOME%/%case_name%.def
 old_path=/work/csp/mg20022/github/CMCC-Spreads_ui
 new_path=%ECF_HOME%
 sed -i "s@$old_path@$new_path@g" %ECF_HOME%/%case_name%.def
 sed -i "s@template@%case_name%@g"  %ECF_HOME%/%case_name%.def
 
-rsync -azh --info=progress2 --exclude '*.job*' --human-readable ${old_path}/experiments/template/ %ECF_HOME%/%case_name%
+mkdir -p %ECF_HOME%/%case_name%
+rsync -azh --info=progress2 --exclude '*.job*' --human-readable ${old_path}/experiments/template/ %ECF_HOME%/%case_name%/
+
+cd %ECF_HOME%/%case_name%/filter_departure_cleaver_screening/departure
+
+rm -rf dep_*.ecf
+
+for n in {1..%DEP%};do
+    ln -s departure.ecf dep_${n}.ecf
+done
+
+cd %ECF_HOME%/%case_name%/filter_assim/departure_update
+
+rm -rf update_*.ecf
+
+for n in {1..%DEP%};do
+    ln -s update.ecf update_${n}.ecf
+done
+
+cd %ECF_HOME%
+
+set +e
+ecflow_client --check /%case_name%
+
+if [ $? -eq 1 ]; then
+    ecflow_client --load=%case_name%.def force
+    ecflow_client --begin=%case_name%
+else
+    ecflow_client --delete yes /%case_name%
+    ecflow_client --load=%case_name%.def force
+    ecflow_client --begin=%case_name%
+fi
+
+set -e
 
 
-cd 
+
+
+
 %include <includes/tail.h>

@@ -16,12 +16,8 @@ if [ ${#PID} -eq 0 ];then
 
     echo -e "\n Export this enveriment before use ecflow_client:"
     echo -e "export ECF_PORT=${ECF_PORT}"
-
     ecflow_client --restart
-    # ecflow_client --delete yes /spreads_ui
-    # ecflow_client --load=spreads_ui.def force
-    # ecflow_client --begin=spreads_uis
-    # ecflow_client --restart
+    
 else
     echo -e "\nERROR!!! This ECF_PORT have been used on Zeus:"
     echo "Username, Date, Port"
