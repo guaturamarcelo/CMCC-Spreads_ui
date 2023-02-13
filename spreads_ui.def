@@ -6,7 +6,7 @@ suite spreads_ui
    edit ECF_HOST "zeus" 
    edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Spreads_ui/includes"
    edit ECF_CLONE "/work/csp/mg20022/github/CMCC-Spreads_ui"
-   edit case_name d4osystemecf
+   edit case_name new_d4o
    edit MODE operation # reanalysis
    edit observation_operational FALSE
    edit nens 3

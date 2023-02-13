@@ -34,15 +34,8 @@ cd CMCC-Spreads_ui
 ```
 > **Warning**:
 Option 1 is only necessary at the first time.
-### Executing program
 
-
-
-
-
-## Help
-
-
+After that process use the script run.ksh to manage the ecFlow server's and the new experiments.
 
 ## Authors
 
