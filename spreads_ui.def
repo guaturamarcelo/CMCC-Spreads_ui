@@ -9,6 +9,8 @@ suite spreads_ui
    edit case_name new_d4o
    edit MODE operation # reanalysis
    edit observation_operational FALSE
+   edit refcase ic_phase1
+   edit refdate 201710020000
    edit nens 3
    edit DEP 13
    edit sequential_assim TRUE
