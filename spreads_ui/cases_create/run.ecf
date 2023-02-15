@@ -29,18 +29,18 @@ date
 # Experiment name
 case_name=%case_name%
 CESMEXP="cesm-exp"
-USER='mg20022' # gc02720
+#USER='mg20022' # gc02720
 
 # Where to copy the clones (Use a clear name for the experiment. The dir name must 
 # not appears in the case.template.original)
 export clonesroot="/users_home/csp/${USER}/${CESMEXP}/${case_name}"
 
 # CESM2 Directory
-mkdir -p ${ECF_HOME}/source/CESM2/case_template
-cd ${ECF_HOME}/source/CESM2/case_template
-set +e
-rsync -azh /work/csp/mg20022/ecflow/source/CESM2/case_template/ .
-set -e
+# mkdir -p ${ECF_HOME}/source/CESM2/case_template
+# cd ${ECF_HOME}/source/CESM2/case_template
+# set +e
+# rsync -azh /work/csp/mg20022/ecflow/source/CESM2/case_template/ .
+# set -e
 
 cd ${ECF_HOME}
 
@@ -49,6 +49,7 @@ nens=%nens%
 
 # DART directory
 export dartroot="/work/csp/${USER}/CMCC-DART-RSYNC/CMCC-DART/"
+# export dartroot="%ECF_HOME%/../../CMCC-DART-RSYNC/CMCC-DART/"
 
 
 # DA working dir
@@ -65,13 +66,13 @@ archdir="/work/csp/${USER}/CESM2/archive"
 baseobsdir=%baseobsdir%
 
 # Time slots used for the FGAT implementation (note: for every time timeslot you need to have an output from the model!)
-nts=13
+nts=%DEP%
 
 # Choose your exp template
-script_name_original="case.templateradL70.original"
+script_name_original=%case_template%
 
 # Chose the input namelist for DART
-dartnamelist="input.nml.original.rad"
+dartnamelist=%dart_nml_template%
 
 #TO DO: move the coefficient table in the new distribution
 # Where is RTTOV
@@ -88,27 +89,26 @@ rttovdir="/users_home/csp/${USER}/rttov123"
 #. /users_home/csp/gc02720/.bashrc
 source /etc/profile.d/modules.sh
 
-# BASHRC
-module load impi20.1/19.7.217 impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1 impi20.1/hdf5/1.12.0 intel20.1/20.1.217 intel20.1/cdo/1.9.8 intel20.1/eccodes/2.17.0 intel20.1/h4cflib/1.3 intel20.1/hdf4/4.2.13 intel20.1/hdf5/1.12.0 intel20.1/magics/3.3.1 intel20.1/nco/4.9.3 intel20.1/ncview/2.1.8 intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
+if [ %ECF_HOST% == 'zeus' ];then
+   # BASHRC
+   module load impi20.1/19.7.217 impi20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1 impi20.1/hdf5/1.12.0 intel20.1/20.1.217 intel20.1/cdo/1.9.8 intel20.1/eccodes/2.17.0 intel20.1/h4cflib/1.3 intel20.1/hdf4/4.2.13 intel20.1/hdf5/1.12.0 intel20.1/magics/3.3.1 intel20.1/nco/4.9.3 intel20.1/ncview/2.1.8 intel20.1/netcdf/C_4.7.4-F_4.5.3_CXX_4.3.1
+   module load ncl/6.6.2
+   module load anaconda3
 
+   # Daniele env
+   conda activate /users_home/csp/dp16116/.conda/envs/py38CS2
 
-module load ncl/6.6.2
-#module load anaconda/3.8
-module load anaconda/2.7
+elif [ %ECF_HOST% == 'juno' ]; then
 
-# Daniele env
-#conda activate /users_home/csp/dp16116/.conda/envs/py38CS2
+   echo 'new env'
 
+fi
 
 # For CMCC-CESM
 CIME_MODEL='cesm'
 
 CESMDATAROOT='/data/inputs/CESM'
 export CESMDATAROOT
-
-CIME_MACH='zeus'
-export CIME_MACH
-
 
 #perl
 export LANGUAGE=en_US.UTF-8
@@ -118,10 +118,8 @@ export LC_TYPE=en_US.UTF-8
 
 
 # For DART
-#CESMDIR='cmcc-cm3.original'
-#CESMDIR='cesm2_1_intel20_1'
-CESMDIR='cesm2.1.4-rc.08'
-#CESMDIR='cesm2.3_beta06'
+
+CESMDIR=%modeldir%
 export CESMDIR
 CESMEXP='cesm-exp'
 export CESMEXP
@@ -207,13 +205,13 @@ else
      exit 222
 fi
 
-if [ ! -d "%ECF_HOME%/source/template" ]; then
-  cp -r --preserve /work/csp/mg20022/ecflow/source/template "%ECF_HOME%/source/template"
-fi
+# if [ ! -d "%ECF_HOME%/source/template" ]; then
+#   cp -r --preserve /work/csp/mg20022/ecflow/source/template "%ECF_HOME%/source/template"
+# fi
 
-if [ ! -d "%ECF_HOME%/source/%case_name%" ]; then
-  cp -r --preserve %ECF_CLONE%/source/template "%ECF_HOME%/source/%case_name%"
-fi
+# if [ ! -d "%ECF_HOME%/source/%case_name%" ]; then
+#   cp -r --preserve %ECF_CLONE%/source/template "%ECF_HOME%/source/%case_name%"
+# fi
 
 cd "%ECF_HOME%/source/%case_name%/main_scripts"
 
@@ -246,8 +244,16 @@ ${COPY} cases_assimilate_template.csh cases_assimilate.csh
 sed -i "s@TEMPLATE_OBS_EXP@${baseobsdir}@g" cases_assimilate.csh
 
 containerdir=`echo ${clonesroot} | cut -d'/' -f6`
+dateref=%refdate%
 ${COPY} ../case_archive/${script_name_original} ../case_archive/${script_name}
 sed -i "s/TEMPLATE_DIR_EXP/${containerdir}/g" ../case_archive/${script_name}
+sed -i "s/setenv refcase     ic_phase1/setenv refcase     %refcase%/g" ../case_archive/${script_name}
+sed -i "s/setenv refyear     2017/setenv refyear     ${dateref:0:4}/g" ../case_archive/${script_name}
+sed -i "s/setenv refmon      10/setenv refmon      ${dateref:4:2}/g" ../case_archive/${script_name}
+sed -i "s/setenv refday      02/setenv refday      ${dateref:6:2}/g" ../case_archive/${script_name}
+sed -i "s/setenv reftod      00000/setenv reftod   ${dateref:8:4}/g" ../case_archive/${script_name}
+sed -i "s/setenv mach         zeus/setenv mach         %ECF_HOST%/g" ../case_archive/${script_name}
+sed -i "s/setenv cesmroot     path_to_model\/spreads-cmcc-cm/setenv cesmroot     %path_to_model%\/%modeldir%/g" ../case_archive/${script_name}
 
 #===========================================================
 #
@@ -356,8 +362,12 @@ ${COPY} $dartroot/d4o/flattened/cam-fv/fill_inflation_restart.dir/fill_inflation
 ${COPY} $dartroot/assimilation_code/programs/gen_sampling_err_table/work/sampling_error_correction_table.nc $tmpdir/.
 
 echo " Copy RTTOV db file"
-${COPY} $dartroot/observations/forward_operators/rttov_sensor_db.csv $tmpdir/.
-${COPY} ${rttovdir}/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat  $tmpdir/.
+# ${COPY} $dartroot/observations/forward_operators/rttov_sensor_db.csv $tmpdir/.
+# ${COPY} ${rttovdir}/rtcoef_rttov12/rttov7pred54L/rtcoef_eos_2_amsua.dat  $tmpdir/.
+${COPY} %ECF_HOME%/source/utilities/rttov_sensor_db.csv $tmpdir/.
+${COPY} %ECF_HOME%/source/utilities/rtcoef_eos_2_amsua.dat  $tmpdir/.
+
+
 
 # Inside the TMP dir we need to create time-slots dir that will contain copy of the filter and links to the other needed files
 ts=1
