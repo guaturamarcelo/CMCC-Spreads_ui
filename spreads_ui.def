@@ -16,6 +16,10 @@ suite spreads_ui
    edit sequential_assim TRUE
    edit MAXTRY 5
    edit baseobsdir /users_home/csp/sm09722/BUFR_D4O   
+   edit case_template case.template-cam83.original
+   edit dart_nml_template input.nml.original.rad
+   edit modeldir spreads-cmcc-cm
+   edit path_to_model /users_home/csp/${USER}
 
    family cases_create
       task run
