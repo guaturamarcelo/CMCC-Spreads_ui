@@ -1,13 +1,40 @@
 %include <includes/head.h>
 
 cp  %ECF_HOME%/experiments/template.def %ECF_HOME%/%case_name%.def
-old_path=/work/csp/mg20022/github/CMCC-Spreads_ui
-new_path=%ECF_HOME%
-sed -i "s@$old_path@$new_path@g" %ECF_HOME%/%case_name%.def
-sed -i "s@template@%case_name%@g"  %ECF_HOME%/%case_name%.def
+# new_path=%ECF_HOME%
+# sed -i "s@$old_path@$new_path@g" %ECF_HOME%/%case_name%.def
+# sed -i "s@template@%case_name%@g"  %ECF_HOME%/%case_name%.def
+
+sed -i "s@edit ECF_HOME@edit ECF_HOME %ECF_HOME%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit ECF_HOST@edit ECF_HOST %ECF_HOST%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit ECF_INCLUDE@edit ECF_INCLUDE %ECF_INCLUDE%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit ECF_CLONE@edit ECF_CLONE %ECF_CLONE%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit NCYCLES@edit NCYCLES %NCYCLES%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit CONT_RUN@edit CONT_RUN %CONT_RUN%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit ACTIVE_ASSI@edit ACTIVE_ASSI %ACTIVE_ASSI%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit FORECAST@edit FORECAST %FORECAST%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit FENS@edit FENS %FENS%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit CLEANA@edit CLEANA %CLEANA%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit MAXTRY@edit MAXTRY %MAXTRY%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit case_name@edit case_name %case_name%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit MODE@edit MODE %MODE%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit observation_operational@edit observation_operational %observation_operational%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit nens@edit nens %nens%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit baseobsdir@edit baseobsdir %baseobsdir%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit refcase@edit refcase %refcase%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit refdate@edit refdate %refdate%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit DEP@edit DEP %DEP%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit case_template@edit case_template %case_template%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit dart_nml_template@edit dart_nml_template %dart_nml_template%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit modeldir@edit modeldir %modeldir%@g" %ECF_HOME%/%case_name%.def
+sed -i "s@edit path_to_model@edit path_to_model %path_to_model%@g" %ECF_HOME%/%case_name%.def
+
+%include <includes/tail.h>
+
+
 
 mkdir -p %ECF_HOME%/%case_name%
-rsync -azh --info=progress2 --exclude '*.job*' --human-readable ${old_path}/experiments/template/ %ECF_HOME%/%case_name%/
+rsync -azh --info=progress2 --exclude '*.job*' --human-readable %ECF_HOME%/experiments/template/ %ECF_HOME%/%case_name%/
 
 cd %ECF_HOME%/%case_name%/filter_departure_cleaver_screening/departure
 
@@ -15,14 +42,6 @@ rm -rf dep_*.ecf
 
 for n in {1..%DEP%};do
     ln -s departure.ecf dep_${n}.ecf
-done
-
-cd %ECF_HOME%/%case_name%/filter_assim/departure_update
-
-rm -rf update_*.ecf
-
-for n in {1..%DEP%};do
-    ln -s update.ecf update_${n}.ecf
 done
 
 cd %ECF_HOME%

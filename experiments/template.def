@@ -1,175 +1,145 @@
 suite template
 
-    # defstatus suspended #queued
+   # defstatus suspended #queued
 
-    edit ECF_HOME "/work/csp/mg20022/github/CMCC-Spreads_ui" 
-    edit ECF_HOST "zeus" 
-    edit ECF_INCLUDE "/work/csp/mg20022/github/CMCC-Spreads_ui/includes"
+   edit ECF_HOME 
+   edit ECF_HOST 
+   edit ECF_INCLUDE 
+   edit ECF_CLONE 
 
-    edit NCYCLES 1
-    edit CONT_RUN FALSE
-    edit ACTIVE_ASSI TRUE
-    edit FORECAST FALSE
-    edit FENS 2
-    edit CLEANA TRUE
-    edit MAXTRY 10
-    edit check_assi 0
-    edit TRY 0
+   edit NCYCLES 
+   edit CONT_RUN 
+   edit ACTIVE_ASSI 
+   edit FORECAST 
+   edit FENS 
+   edit CLEANA 
+   edit MAXTRY 
+   edit TRY 0
 
-    edit case_name template
-    edit MODE operation # reanalysis
-    edit observation_operational FALSE
-    edit nens 3
-    edit sequential_assim TRUE
-    edit baseobsdir /users_home/csp/sm09722/BUFR_D4O
+   edit case_name 
+   edit MODE 
+   edit observation_operational 
+   edit nens 
+   edit baseobsdir 
 
-
-    family background
-        defstatus suspended
-        task pre
-        family run
-            trigger pre==complete
-            task mem_1
-            task mem_2
-            task mem_3
-        endfamily
-    endfamily
+   edit refcase 
+   edit refdate 
+   edit DEP 
+   edit case_template 
+   edit dart_nml_template 
+   edit modeldir 
+   edit path_to_model 
 
 
-    family prepare_assimilation
-        defstatus queued
-        trigger background==complete
-        task pre_departure
-    endfamily
-    
-    family filter_departure_cleaver_screening
-        defstatus queued
-        family departure
-            edit first_departure null
-            edit last_departure null
-            edit end_order null
-            trigger ../prepare_assimilation==complete
+   family background
+      defstatus suspended
+      task pre
+      family run
+         trigger pre==complete
+         task mem_1
+         task mem_2
+         task mem_3
+      endfamily
+   endfamily
 
-            edit done 0
-            task dep_1
-              label info ""
-                trigger dep_7==complete
-            task dep_2
-              label info ""
-              trigger dep_7==complete
-            task dep_3
-              label info ""
-              trigger dep_7==complete
-            task dep_4
-              label info ""
-              trigger dep_7==complete
-            task dep_5
-              label info ""
-              trigger dep_7==complete
-            task dep_6
-              label info ""
-              trigger dep_7==complete
-            task dep_7
-              label info ""
-            task dep_8
-              label info ""
-              trigger dep_7==complete
-            task dep_9
-              label info ""
-              trigger dep_7==complete
-            task dep_10
-              label info ""
-              trigger dep_7==complete
-            task dep_11
-              label info ""
-              trigger dep_7==complete
-            task dep_12
-              label info ""
-              trigger dep_7==complete
-            task dep_13
-              label info ""
-              trigger dep_7==complete
-        endfamily
-    endfamily   
 
-    family filter_assim
-        defstatus queued
-        family departure_update
-            
-            edit first_update null
-            edit last_update null
-            edit ts_order null
-            edit done 0
+   family prepare_assimilation
+      defstatus queued
+      trigger background==complete
+      task pre_departure
+   endfamily
 
-            task ctrl
-              label info ""
-              trigger ../../filter_departure_cleaver_screening/departure==active
-            task update_1
-              label info ""
-              defstatus suspended
-            task update_2
-              label info ""
-              defstatus suspended
-            task update_3
-              label info ""
-              defstatus suspended
-            task update_4
-              label info ""
-              defstatus suspended
-            task update_5
-              label info ""
-              defstatus suspended
-            task update_6
-              label info ""
-              defstatus suspended
-            task update_7
-              label info ""
-              defstatus suspended
-            task update_8
-              label info ""
-              defstatus suspended
-            task update_9
-              label info ""
-              defstatus suspended
-            task update_10
-              label info ""
-              defstatus suspended
-            task update_11
-              label info ""
-              defstatus suspended
-            task update_12
-              label info ""
-              defstatus suspended
-            task update_13
-              label info ""
-              defstatus suspended
-        endfamily
-    endfamily 
+   family filter_departure_cleaver_screening
+      defstatus queued
+      family departure
+         edit first_departure null
+         edit last_departure null
+         edit end_order null
+         trigger ../prepare_assimilation==complete
 
-    family postprocess
-        defstatus suspended
-        # defstatus queued        
-        trigger filter_assim==complete
-        task rename   
-        task archive
-          trigger rename==complete
-        task clean
-          trigger archive==complete
-    endfamily
+         edit done 0
+         task dep_1
+            label info ""
+            trigger dep_7==complete
+         task dep_2
+            label info ""
+            trigger dep_7==complete
+         task dep_3
+            label info ""
+            trigger dep_7==complete
+         task dep_4
+            label info ""
+            trigger dep_7==complete
+         task dep_5
+            label info ""
+            trigger dep_7==complete
+         task dep_6
+            label info ""
+            trigger dep_7==complete
+         task dep_7
+            label info ""
+         task dep_8
+            label info ""
+            trigger dep_7==complete
+         task dep_9
+            label info ""
+            trigger dep_7==complete
+         task dep_10
+            label info ""
+            trigger dep_7==complete
+         task dep_11
+            label info ""
+            trigger dep_7==complete
+         task dep_12
+            label info ""
+            trigger dep_7==complete
+         task dep_13
+            label info ""
+            trigger dep_7==complete
+      endfamily
+   endfamily   
 
-    family forecast
-        defstatus suspended
-      #  defstatus queued
-        trigger filter_assim==complete
+   family filter_assim
+      defstatus queued
+      family departure_update
+         
+         edit first_update null
+         edit last_update null
+         edit ts_order null
+         edit done 0
 
-        task 9h_forecast
-        task seasonal_forecast
-        task archive
-    endfamily
+         task ctrl
+            label info ""
+            trigger ../../filter_departure_cleaver_screening/departure==active
+         task update
+            label info ""
+      endfamily
+   endfamily 
 
-    family cancel
-        defstatus queued
-        task cancel
-           trigger ../forecast==complete
-    endfamily
+   family postprocess
+      defstatus suspended
+      # defstatus queued        
+      trigger filter_assim==complete
+      task rename   
+      task archive
+      trigger rename==complete
+      task clean
+      trigger archive==complete
+   endfamily
+
+   family forecast
+      defstatus suspended
+   #  defstatus queued
+      trigger filter_assim==complete
+
+      task 9h_forecast
+      task seasonal_forecast
+      task archive
+   endfamily
+
+   family cancel
+      defstatus queued
+      task cancel
+         trigger ../forecast==complete
+   endfamily
 endsuite
